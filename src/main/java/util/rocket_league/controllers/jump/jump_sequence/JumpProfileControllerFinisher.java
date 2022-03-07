@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.jump_sequence;
+package util.rocket_league.controllers.jump.jump_sequence;
 
 public class JumpProfileControllerFinisher {
 

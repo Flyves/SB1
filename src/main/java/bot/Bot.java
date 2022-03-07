@@ -19,12 +19,15 @@ public class Bot implements rlbot.Bot {
     private final int playerIndex;
     private final SB1 rocketLeagueBot;
 
-    public final List<DataPacket> pastInputs = new LinkedList<>();
-    public final List<ControlsOutput> pastOutputs = new LinkedList<>();
+    public final List<DataPacket> pastInputs;
+    public final List<List<ControlsOutput>> pastOutputs;
 
     public Bot(SB1 rocketLeagueBot, int playerIndex) {
         this.rocketLeagueBot = rocketLeagueBot;
         this.playerIndex = playerIndex;
+
+        this.pastInputs = new LinkedList<>();
+        this.pastOutputs = new LinkedList<>();
     }
 
     @Override
@@ -63,7 +66,13 @@ public class Bot implements rlbot.Bot {
         final ControlsOutput controlsOutput = rocketLeagueBot.exec(input);
         rocketLeagueBot.debug(input);
 
-        pastOutputs.add(controlsOutput);
+        // yikes plz fix
+        {
+            // TODO : remove this, and find the output of any car in the field by implementing the OutputFinder class
+            // quick fix to remember the outputs of the bot.
+            // caution: WE ONLY KNOW THE OUTPUT OF OURSELVES WITH THIS!!
+            pastOutputs.get(pastOutputs.size() - 1).set(playerIndex, controlsOutput);
+        }
 
         return controlsOutput;
     }

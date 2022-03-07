@@ -38,8 +38,8 @@ public class CarHitBox {
         // the start of the program...
         this.localHitBoxOffset = null;
         this.cornerPosition = boxSize;
-        this.frontOrientation = orientation.noseVector;
-        this.roofOrientation = orientation.roofVector;
+        this.frontOrientation = orientation.nose;
+        this.roofOrientation = orientation.roof;
     }
 
     public CarHitBox generateHypotheticalHitBox(Vector3 hypotheticalPosition, Orientation hypotheticalOrientation) {

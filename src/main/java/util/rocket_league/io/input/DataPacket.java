@@ -1,24 +1,23 @@
 package util.rocket_league.io.input;
 
 import rlbot.flat.GameTickPacket;
-import rlbot.render.Renderer;
+import util.math.vector.Vector3;
 import util.rocket_league.Constants;
 import util.rocket_league.dynamic_objects.boost.BoostManager;
 import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
+import util.rocket_league.io.output.OutputFinder;
 import util.rocket_league.team.TeamType;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class DataPacket {
-
+    public final Vector3 gravityVector;
     public final int botIndex;
     public final List<ExtendedCarData> allCars;
     public final List<ExtendedCarData> humanCars;
@@ -29,7 +28,7 @@ public class DataPacket {
     public final TeamType team;
     public final BallData ball;
     public final List<DataPacket> pastInputs;
-    public final List<ControlsOutput> pastOutputs;
+    public final List<List<ControlsOutput>> pastOutputs;
 
     public static final int PAST_INPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
     public static final int PAST_OUTPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
@@ -39,14 +38,12 @@ public class DataPacket {
 
     public DataPacket(DataPacketParameters dataPacketParameters) {
         // past inputs
-        pastInputs = dataPacketParameters.pastInputs;
-        pastInputs.add(this);
-        if(pastInputs.size() > PAST_INPUTS_MAX_SIZE) pastInputs.remove(0);
+        this.pastInputs = dataPacketParameters.pastInputs;
 
         // past outputs
-        pastOutputs = dataPacketParameters.pastOutputs;
-        if(pastOutputs.size() > PAST_OUTPUTS_MAX_SIZE) pastOutputs.remove(0);
+        this.pastOutputs = dataPacketParameters.pastOutputs;
 
+        this.gravityVector = new Vector3(0, 0, dataPacketParameters.request.gameInfo().worldGravityZ());
         this.botIndex = dataPacketParameters.playerIndex;
         this.allCars = new ArrayList<>();
         this.teammates = new ArrayList<>();
@@ -69,20 +66,27 @@ public class DataPacket {
         this.ball = new BallData(dataPacketParameters.request.ball());
         handleDataLoading(dataPacketParameters.request);
 
+        // compute new past input
+        pastInputs.add(this);
+        if(pastInputs.size() > PAST_INPUTS_MAX_SIZE) pastInputs.remove(0);
+
+        // compute new past output
+        pastOutputs.add(findOutputListOfAllCars(this));
+        if(pastOutputs.size() > PAST_OUTPUTS_MAX_SIZE) pastOutputs.remove(0);
     }
 
     private void loadCars(GameTickPacket request) {
         for(int i = 0; i < request.playersLength(); i++) {
             final rlbot.flat.PlayerInfo playerInfo = request.players(i);
             final float elapsedSeconds = request.gameInfo().secondsElapsed();
-            allCars.add(new ExtendedCarData(playerInfo, i, elapsedSeconds));
+            allCars.add(new ExtendedCarData(playerInfo, i, elapsedSeconds, this));
         }
         humanCars.addAll(allCars.stream()
                 .filter(carData -> !carData.isBot)
                 .collect(Collectors.toList()));
     }
 
-    private void handleDataLoading(GameTickPacket request) {
+    private void handleDataLoading(final GameTickPacket request) {
         synchronized(dataLoaded) {
             if(!dataLoaded.get()) {
                 loadData(request);
@@ -99,5 +103,11 @@ public class DataPacket {
 
     private void loadData(GameTickPacket request) {
         BoostManager.loadGameTickPacket(request);
+    }
+
+    private List<ControlsOutput> findOutputListOfAllCars(final DataPacket input) {
+        return input.allCars.stream()
+                .map(car -> OutputFinder.findOutputFromCarPhysics(car, this))
+                .collect(Collectors.toList());
     }
 }

@@ -35,7 +35,7 @@ public class CarBallCollider {
         final Matrix3By3 Lb = p.minus(ball.position).toCrossProductMatrix();
         final Vector3 Vc = car.velocity;
         final Vector3 Vb = ball.velocity;
-        final Vector3 Wc = car.spin;
+        final Vector3 Wc = car.angularVelocity;
         final Vector3 Wb = ball.spin;
 
         final Vector3 deltaV =
@@ -56,7 +56,7 @@ public class CarBallCollider {
 
         final Vector3 squishedCarToBall = ball.position.minus(car.position)
                 .scaled(1, 1, 0.35);
-        final Vector3 carNoseOrientation = car.orientation.noseVector;
+        final Vector3 carNoseOrientation = car.orientation.nose;
         final Vector3 squishedCarToBallSubtraction = carNoseOrientation.scaled(0.35 * squishedCarToBall.dotProduct(carNoseOrientation));
         final Vector3 n2 = squishedCarToBall.minus(squishedCarToBallSubtraction).normalized();
         final double carToBallSpeed = Vb.minus(Vc).magnitude();

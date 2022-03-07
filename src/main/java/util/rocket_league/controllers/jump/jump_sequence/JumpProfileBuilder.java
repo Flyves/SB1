@@ -1,18 +1,18 @@
-package util.rocket_league.controllers.jump_sequence;
+package util.rocket_league.controllers.jump.jump_sequence;
 
 import util.math.vector.Vector2;
-import util.rocket_league.controllers.flip.FlipController;
-import util.rocket_league.controllers.flip.FlipType;
+import util.rocket_league.controllers.jump.second.SecondJumpController;
+import util.rocket_league.controllers.jump.second.SecondJumpType;
 
 public class JumpProfileBuilder {
     private int initialImpulse;
-    private FlipType flipType;
+    private SecondJumpType secondJumpType;
     private Vector2 flipDirection;
 
     public JumpProfileBuilder() {
         this.initialImpulse = 0;
-        this.flipType = FlipType.NONE;
-        this.flipDirection = FlipController.DEFAULT_FLIP_DIRECTION;
+        this.secondJumpType = SecondJumpType.NONE;
+        this.flipDirection = SecondJumpController.DEFAULT_FLIP_DIRECTION;
     }
 
     public JumpProfileBuilder withInitialImpulse(final int initialImpulseImpulse) {
@@ -20,8 +20,8 @@ public class JumpProfileBuilder {
         return this;
     }
 
-    public JumpProfileBuilder withFlipType(final FlipType flipType) {
-        this.flipType = flipType;
+    public JumpProfileBuilder withFlipType(final SecondJumpType secondJumpType) {
+        this.secondJumpType = secondJumpType;
         return this;
     }
 
@@ -31,6 +31,6 @@ public class JumpProfileBuilder {
     }
 
     public JumpProfile build() {
-        return new JumpProfile(initialImpulse, flipType, flipDirection);
+        return new JumpProfile(initialImpulse, secondJumpType, flipDirection);
     }
 }

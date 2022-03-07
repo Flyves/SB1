@@ -13,9 +13,9 @@ public class DataPacketParameters {
     public final GameTickPacket request;
     public final int playerIndex;
     public final List<DataPacket> pastInputs;
-    public final List<ControlsOutput> pastOutputs;
+    public final List<List<ControlsOutput>> pastOutputs;
 
-    public DataPacketParameters(GameTickPacket request, int playerIndex, List<DataPacket> pastInputs, List<ControlsOutput> pastOutputs) {
+    public DataPacketParameters(GameTickPacket request, int playerIndex, List<DataPacket> pastInputs, List<List<ControlsOutput>> pastOutputs) {
         this.request = request;
         this.playerIndex = playerIndex;
         this.pastInputs = pastInputs;

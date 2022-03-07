@@ -1,9 +1,9 @@
-package util.rocket_league.controllers.jump_sequence.states;
+package util.rocket_league.controllers.jump.jump_sequence.states;
 
 import util.data_structure.tupple.Tuple2;
-import util.rocket_league.controllers.jump.GroundJumpController;
-import util.rocket_league.controllers.jump_sequence.JumpProfile;
-import util.rocket_league.controllers.jump_sequence.JumpProfileController;
+import util.rocket_league.controllers.jump.first.GroundJumpController;
+import util.rocket_league.controllers.jump.jump_sequence.JumpProfile;
+import util.rocket_league.controllers.jump.jump_sequence.JumpProfileController;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -35,7 +35,12 @@ public class FirstJump extends State<Tuple2<ExtendedCarData, ControlsOutput>, Co
                 return new SecondJump(jumpProfileController, io.value1, jumpProfile);
             }
             catch (final Exception e) {
-                return new FirstJump(jumpProfileController, io.value1, jumpProfile);
+                try {
+                    return new FirstJump(jumpProfileController, io.value1, jumpProfile);
+                }
+                catch (final Exception e2) {
+                    return new Finished(jumpProfileController);
+                }
             }
         }
         return this;

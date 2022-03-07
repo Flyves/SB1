@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.jump;
+package util.rocket_league.controllers.jump.first;
 
 public class GroundJumpWithoutWheelContactException extends RuntimeException {
     public GroundJumpWithoutWheelContactException() {

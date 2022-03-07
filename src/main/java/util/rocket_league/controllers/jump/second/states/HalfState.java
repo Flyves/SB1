@@ -1,19 +1,20 @@
-package util.rocket_league.controllers.flip.states;
+package util.rocket_league.controllers.jump.second.states;
 
 import util.data_structure.tupple.Tuple2;
-import util.rocket_league.controllers.flip.FlipController;
+import util.rocket_league.controllers.jump.second.SecondJumpController;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 
 public class HalfState extends BaseState {
-    public HalfState(final FlipController flipController) {
-        super(flipController);
+    public HalfState(final SecondJumpController secondJumpController) {
+        super(secondJumpController);
     }
 
     @Override
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         final ControlsOutput output = new ControlsOutput();
         if(frameCount() == 0) {
+            System.out.println("executing second flip");
             output.isJumping = true;
             output.pitch = 1;
             output.yaw = 0;

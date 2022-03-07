@@ -1,8 +1,8 @@
-package util.rocket_league.controllers.jump_sequence.states;
+package util.rocket_league.controllers.jump.jump_sequence.states;
 
 import util.data_structure.tupple.Tuple2;
-import util.rocket_league.controllers.jump_sequence.JumpProfile;
-import util.rocket_league.controllers.jump_sequence.JumpProfileController;
+import util.rocket_league.controllers.jump.jump_sequence.JumpProfile;
+import util.rocket_league.controllers.jump.jump_sequence.JumpProfileController;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;

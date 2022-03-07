@@ -12,24 +12,24 @@ import util.math.vector.Vector3;
 public class Orientation {
 
     /** The direction that the front of the car is facing */
-    public Vector3 noseVector;
+    public Vector3 nose;
 
     /** The direction the roof of the car is facing. (0, 0, 1) means the car is upright. */
-    public Vector3 roofVector;
+    public Vector3 roof;
 
     /** The direction that the right side of the car is facing. */
-    public Vector3 rightVector;
+    public Vector3 right;
 
     public Orientation() {
-        this.noseVector = Vector3.X_VECTOR;
-        this.roofVector = Vector3.UP_VECTOR;
-        this.rightVector = noseVector.crossProduct(roofVector);
+        this.nose = Vector3.X_VECTOR;
+        this.roof = Vector3.UP_VECTOR;
+        this.right = nose.crossProduct(roof);
     }
 
-    public Orientation(Vector3 noseVector, Vector3 roofVector) {
-        this.noseVector = noseVector;
-        this.roofVector = roofVector;
-        this.rightVector = noseVector.crossProduct(roofVector);
+    public Orientation(Vector3 nose, Vector3 roof) {
+        this.nose = nose;
+        this.roof = roof;
+        this.right = nose.crossProduct(roof);
     }
 
     public static Orientation fromFlatbuffer(PlayerInfo playerInfo) {
@@ -56,22 +56,22 @@ public class Orientation {
 
     public Orientation rotate(Vector3 orientationRotator) {
         return new Orientation(
-                noseVector.rotate(orientationRotator),
-                roofVector.rotate(orientationRotator));
+                nose.rotate(orientationRotator),
+                roof.rotate(orientationRotator));
     }
 
     public Vector3 findAngularDisplacementTo(Orientation that) {
-        final Vector3 noseRotationDisk = findRotationDisk(this.noseVector, that.noseVector);
-        final Vector3 roofRotationDisk = findRotationDisk(this.roofVector, that.roofVector);
+        final Vector3 noseRotationDisk = findRotationDisk(this.nose, that.nose);
+        final Vector3 roofRotationDisk = findRotationDisk(this.roof, that.roof);
         final Vector3 directionOfDisplacementVector = noseRotationDisk.crossProduct(roofRotationDisk);
         final Vector3 flatteningRotator = directionOfDisplacementVector.findRotator(Vector3.UP_VECTOR);
 
         final double displacementVectorMagnitude;
         if(!noseRotationDisk.isZero()) {
-            displacementVectorMagnitude = signedAngleBetweenDirectionsForASpecificRotator(that.noseVector, this.noseVector, flatteningRotator);
+            displacementVectorMagnitude = signedAngleBetweenDirectionsForASpecificRotator(that.nose, this.nose, flatteningRotator);
         }
         else {
-            displacementVectorMagnitude = signedAngleBetweenDirectionsForASpecificRotator(that.roofVector, this.roofVector, flatteningRotator);
+            displacementVectorMagnitude = signedAngleBetweenDirectionsForASpecificRotator(that.roof, this.roof, flatteningRotator);
         }
 
         return directionOfDisplacementVector.scaledToMagnitude(displacementVectorMagnitude);

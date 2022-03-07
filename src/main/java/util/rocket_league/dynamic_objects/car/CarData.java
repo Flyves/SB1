@@ -10,7 +10,7 @@ public class CarData {
     public final Vector3 position;
     public final Vector3 velocity;
     public final Orientation orientation;
-    public final Vector3 spin;
+    public final Vector3 angularVelocity;
     public final double boost;
     public final CarHitBox carHitBox;
     public final WheelBox wheelBox;
@@ -18,14 +18,14 @@ public class CarData {
 
     public CarData(rlbot.flat.PlayerInfo playerInfo, float elapsedSeconds) {
         this.position = new Vector3(playerInfo.physics().location());
-        this.velocity = new Vector3(playerInfo.physics().velocity());;
+        this.velocity = new Vector3(playerInfo.physics().velocity());
         this.boost = playerInfo.boost();
         this.orientation = Orientation.fromFlatbuffer(playerInfo);
-        this.spin = new Vector3(playerInfo.physics().angularVelocity())
+        this.angularVelocity = new Vector3(playerInfo.physics().angularVelocity())
                 .rotateToOrientationReferenceFrom(orientation)
                 .scaled(-1)
                 .rotateFromOrientationReferenceTo(orientation);
-        this.carHitBox = new CarHitBox(position, playerInfo.hitboxOffset(), playerInfo.hitbox(), orientation.noseVector, orientation.roofVector);
+        this.carHitBox = new CarHitBox(position, playerInfo.hitboxOffset(), playerInfo.hitbox(), orientation.nose, orientation.roof);
         this.wheelBox = new OctaneWheelBox(position, orientation);
         this.elapsedSeconds = elapsedSeconds;
     }
@@ -33,7 +33,7 @@ public class CarData {
     public CarData(CarData car, Vector3 newVelocity, Vector3 newAngularVelocity) {
         this.position = car.position;
         this.velocity = newVelocity;
-        this.spin = newAngularVelocity;
+        this.angularVelocity = newAngularVelocity;
         this.boost = car.boost;
         this.orientation = car.orientation;
         this.carHitBox = car.carHitBox;
@@ -42,6 +42,6 @@ public class CarData {
     }
 
     public final Vector3 surfaceVelocity(final Vector3 normal) {
-        return spin.crossProduct(normal).scaled(carHitBox.closestPointOnSurface(normal.scaled(200)).minus(carHitBox.centerPositionOfHitBox).magnitude());
+        return angularVelocity.crossProduct(normal).scaled(carHitBox.closestPointOnSurface(normal.scaled(200)).minus(carHitBox.centerPositionOfHitBox).magnitude());
     }
 }

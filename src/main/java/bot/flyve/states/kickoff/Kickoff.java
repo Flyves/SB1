@@ -33,6 +33,7 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
 
     @Override
     public ControlsOutput exec(DataPacket input) {
+        //System.out.println(input.humanCars.get(0).hasSecondJump);
         return stateMachine.exec(input);
     }
 

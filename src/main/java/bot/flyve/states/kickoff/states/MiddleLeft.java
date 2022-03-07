@@ -8,11 +8,11 @@ public class MiddleLeft extends State<DataPacket, ControlsOutput> {
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        return null;
+        return new ControlsOutput();
     }
 
     @Override
     public State<DataPacket, ControlsOutput> next(DataPacket input) {
-        return null;
+        return this;
     }
 }

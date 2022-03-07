@@ -1,29 +1,31 @@
-package util.rocket_league.controllers.flip;
+package util.rocket_league.controllers.jump.second;
 
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector2;
 import util.rocket_league.controllers.Finishable;
 import util.rocket_league.controllers.flip.states.*;
+import util.rocket_league.controllers.jump.second.states.*;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.Behaviour;
 import util.state_machine.StateMachine;
 
-public class FlipController implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
+public class SecondJumpController implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
 
     public static final Vector2 DEFAULT_FLIP_DIRECTION = new Vector2(0, 1);
 
     private final StateMachine<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> stateMachine;
     private boolean isFinished;
 
-    public FlipController(final ExtendedCarData extendedCarData, final FlipType flipType) {
-        this(extendedCarData, flipType, DEFAULT_FLIP_DIRECTION);
+    public SecondJumpController(final ExtendedCarData extendedCarData, final SecondJumpType secondJumpType) {
+        this(extendedCarData, secondJumpType, DEFAULT_FLIP_DIRECTION);
     }
 
-    public FlipController(final ExtendedCarData extendedCarData, final FlipType flipType, final Vector2 flipOrientation) {
+    public SecondJumpController(final ExtendedCarData extendedCarData, final SecondJumpType secondJumpType, final Vector2 flipOrientation) {
         if(extendedCarData.hasWheelContact) throw new SecondJumpWithWheelContactException();
-        switch (flipType) {
-            case NORMAL: this.stateMachine = new StateMachine<>(new NormalState(this, flipOrientation));
+        if(!extendedCarData.hasSecondJump) throw new SecondJumpLossException();
+        switch (secondJumpType) {
+            case FLIP: this.stateMachine = new StateMachine<>(new FlipState(this, flipOrientation));
             break;
             case HALF: this.stateMachine = new StateMachine<>(new HalfState(this));
             break;
@@ -48,12 +50,12 @@ public class FlipController implements Behaviour<Tuple2<ExtendedCarData, Control
         return stateMachine.exec(io);
     }
 
-    void setIsFinished(final boolean isFinished) {
-        this.isFinished = isFinished;
-    }
-
     @Override
     public boolean isFinished() {
         return this.isFinished;
+    }
+
+    void setIsFinished(final boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }

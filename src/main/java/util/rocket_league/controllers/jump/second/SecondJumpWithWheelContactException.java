@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.flip;
+package util.rocket_league.controllers.jump.second;
 
 public class SecondJumpWithWheelContactException extends RuntimeException {
     public SecondJumpWithWheelContactException() {
