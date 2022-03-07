@@ -31,7 +31,12 @@ public class FirstJump extends State<Tuple2<ExtendedCarData, ControlsOutput>, Co
     @Override
     public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(groundJumpController.isFinished()) {
-            return new SecondJump(jumpProfileController, io.value1, jumpProfile);
+            try {
+                return new SecondJump(jumpProfileController, io.value1, jumpProfile);
+            }
+            catch (final Exception e) {
+                return new FirstJump(jumpProfileController, io.value1, jumpProfile);
+            }
         }
         return this;
     }

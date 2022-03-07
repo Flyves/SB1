@@ -4,7 +4,7 @@ public enum FlipType {
     NORMAL,
     HALF,
     CANCEL,
-    SPEED,
+    PARTIAL_CANCEL,
     WAVE_DASH,
     DOUBLE_WAVE_DASH,
     SECOND_JUMP,

@@ -41,13 +41,12 @@ public enum KickoffPosition {
                 .noneMatch(kickoffPosition1 -> kickoffPosition1.equals(KickoffPosition.FAR_LEFT)
                         || kickoffPosition1.equals(KickoffPosition.FAR_RIGHT))
                 && kickoffPosition == KickoffPosition.MIDDLE_LEFT) return true;
-        else if(input.carsFromSameTeam.stream()
-                .map(KickoffPosition::findPosition)
-                .noneMatch(kickoffPosition1 -> kickoffPosition1.equals(KickoffPosition.FAR_LEFT)
-                        || kickoffPosition1.equals(KickoffPosition.FAR_RIGHT)
-                        || kickoffPosition1.equals(KickoffPosition.MIDDLE_LEFT))
-                && kickoffPosition == KickoffPosition.MIDDLE_RIGHT) return true;
-        return false;
+        return input.carsFromSameTeam.stream()
+                    .map(KickoffPosition::findPosition)
+                    .noneMatch(kickoffPosition1 -> kickoffPosition1.equals(KickoffPosition.FAR_LEFT)
+                            || kickoffPosition1.equals(KickoffPosition.FAR_RIGHT)
+                            || kickoffPosition1.equals(KickoffPosition.MIDDLE_LEFT))
+                    && kickoffPosition == KickoffPosition.MIDDLE_RIGHT;
     }
 
     public static boolean kickoffFinished(DataPacket input) {

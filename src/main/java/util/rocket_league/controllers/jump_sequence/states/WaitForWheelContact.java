@@ -18,9 +18,8 @@ public class WaitForWheelContact extends State<Tuple2<ExtendedCarData, ControlsO
     }
 
     @Override
-    public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> input) {
-        // TODO: orient the car so it lands on the ground
-        return input.value2;
+    public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
+        return io.value2;
     }
 
     @Override

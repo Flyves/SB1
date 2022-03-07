@@ -2,7 +2,7 @@ package bot.flyve.states;
 
 import bot.flyve.states.kickoff.Kickoff;
 import bot.flyve.states.kickoff.KickoffPosition;
-import bot.flyve.states.kickoff_done.KickoffDone;
+import bot.flyve.states.game_started.GameStarted;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -18,7 +18,7 @@ public class PlayTheGame extends State<DataPacket, ControlsOutput> {
             stateMachine = new StateMachine<>(new Kickoff());
         }
         else {
-            stateMachine = new StateMachine<>(new KickoffDone());
+            stateMachine = new StateMachine<>(new GameStarted());
         }
     }
 

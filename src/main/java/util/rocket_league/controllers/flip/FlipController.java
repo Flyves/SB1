@@ -29,7 +29,7 @@ public class FlipController implements Behaviour<Tuple2<ExtendedCarData, Control
             break;
             case CANCEL: this.stateMachine = new StateMachine<>(new CancelState(this));
             break;
-            case SPEED: this.stateMachine = new StateMachine<>(new SpeedState(this));
+            case PARTIAL_CANCEL: this.stateMachine = new StateMachine<>(new PartialCancelState(this, flipOrientation));
             break;
             case WAVE_DASH: this.stateMachine = new StateMachine<>(new WaveDashState(this, flipOrientation));
             break;
