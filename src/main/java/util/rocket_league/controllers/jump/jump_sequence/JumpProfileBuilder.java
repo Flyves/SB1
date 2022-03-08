@@ -20,7 +20,7 @@ public class JumpProfileBuilder {
         return this;
     }
 
-    public JumpProfileBuilder withFlipType(final SecondJumpType secondJumpType) {
+    public JumpProfileBuilder withSecondJumpType(final SecondJumpType secondJumpType) {
         this.secondJumpType = secondJumpType;
         return this;
     }

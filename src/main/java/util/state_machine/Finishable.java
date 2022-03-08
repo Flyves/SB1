@@ -1,4 +1,4 @@
-package util.rocket_league.controllers;
+package util.state_machine;
 
 public interface Finishable {
     boolean isFinished();

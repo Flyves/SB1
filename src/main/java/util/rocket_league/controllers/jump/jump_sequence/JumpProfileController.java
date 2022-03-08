@@ -1,7 +1,7 @@
 package util.rocket_league.controllers.jump.jump_sequence;
 
 import util.data_structure.tupple.Tuple2;
-import util.rocket_league.controllers.Finishable;
+import util.state_machine.Finishable;
 import util.rocket_league.controllers.jump.jump_sequence.states.Finished;
 import util.rocket_league.controllers.jump.jump_sequence.states.FirstJump;
 import util.rocket_league.controllers.jump.jump_sequence.states.SecondJump;

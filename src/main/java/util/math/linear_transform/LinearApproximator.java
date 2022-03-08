@@ -100,7 +100,7 @@ public class LinearApproximator {
         // If this is still equal to null,
         // then the value of x that corresponds
         // to the queried y is undefined.
-        // In out case, we still want a value,
+        // In our case, we still want a value,
         // so we take the closest point and
         // return its x coordinate
         if(pointThatCrossedTheLine == null) {
@@ -121,7 +121,7 @@ public class LinearApproximator {
         // we don't need to check for out of bound because:
         // 1) we don't care about the upper bound (functionSamples.indexOf(pointThatCrossedTheLine) << functionSamples.size())
         // 2) the lower bound is strictly bigger than 0 because we
-        // crossed the y value at least once (functionSamples.indexOf(pointThatCrossedTheLine) >> 0)
+        //    crossed the y value at least once (functionSamples.indexOf(pointThatCrossedTheLine) >> 0)
         int indexOfPrecedingPoint = functionSamples.indexOf(pointThatCrossedTheLine)-1;
         Vector2 pointBeforeCrossingTheLine = functionSamples.get(indexOfPrecedingPoint);
 

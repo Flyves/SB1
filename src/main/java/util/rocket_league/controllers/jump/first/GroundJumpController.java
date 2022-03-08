@@ -2,7 +2,7 @@ package util.rocket_league.controllers.jump.first;
 
 import util.data_structure.tupple.Tuple2;
 import util.rocket_league.Constants;
-import util.rocket_league.controllers.Finishable;
+import util.state_machine.Finishable;
 import util.rocket_league.controllers.jump.first.states.InitialJump;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;

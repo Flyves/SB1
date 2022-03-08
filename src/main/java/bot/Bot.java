@@ -8,22 +8,21 @@ import util.renderers.RenderTasks;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.input.DataPacketParameters;
 import util.rocket_league.io.output.ControlsOutput;
+import util.state_machine.Behaviour;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public class Bot implements rlbot.Bot {
 
     private final int playerIndex;
-    private final SB1 rocketLeagueBot;
+    private final Behaviour<DataPacket, ControlsOutput> botBehaviour;
 
     public final List<DataPacket> pastInputs;
     public final List<List<ControlsOutput>> pastOutputs;
 
     public Bot(SB1 rocketLeagueBot, int playerIndex) {
-        this.rocketLeagueBot = rocketLeagueBot;
+        this.botBehaviour = rocketLeagueBot;
         this.playerIndex = playerIndex;
 
         this.pastInputs = new LinkedList<>();
@@ -63,8 +62,7 @@ public class Bot implements rlbot.Bot {
     private ControlsOutput runBotLogic(DataPacket input) {
         processDefaultInputs(input);
 
-        final ControlsOutput controlsOutput = rocketLeagueBot.exec(input);
-        rocketLeagueBot.debug(input);
+        final ControlsOutput controlsOutput = botBehaviour.exec(input);
 
         // yikes plz fix
         {

@@ -2,8 +2,7 @@ package util.rocket_league.controllers.jump.second;
 
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector2;
-import util.rocket_league.controllers.Finishable;
-import util.rocket_league.controllers.flip.states.*;
+import util.state_machine.Finishable;
 import util.rocket_league.controllers.jump.second.states.*;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
@@ -25,22 +24,22 @@ public class SecondJumpController implements Behaviour<Tuple2<ExtendedCarData, C
         if(extendedCarData.hasWheelContact) throw new SecondJumpWithWheelContactException();
         if(!extendedCarData.hasSecondJump) throw new SecondJumpLossException();
         switch (secondJumpType) {
-            case FLIP: this.stateMachine = new StateMachine<>(new FlipState(this, flipOrientation));
-            break;
-            case HALF: this.stateMachine = new StateMachine<>(new HalfState(this));
-            break;
-            case CANCEL: this.stateMachine = new StateMachine<>(new CancelState(this));
-            break;
-            case PARTIAL_CANCEL: this.stateMachine = new StateMachine<>(new PartialCancelState(this, flipOrientation));
-            break;
-            case WAVE_DASH: this.stateMachine = new StateMachine<>(new WaveDashState(this, flipOrientation));
-            break;
-            case DOUBLE_WAVE_DASH: this.stateMachine = new StateMachine<>(new DoubleWaveDashState(this, flipOrientation));
-            break;
             case SECOND_JUMP: this.stateMachine = new StateMachine<>(new SecondJump(this));
-            break;
+                break;
+            case FLIP: this.stateMachine = new StateMachine<>(new FlipState(this, flipOrientation));
+                break;
+            case HALF: this.stateMachine = new StateMachine<>(new HalfState(this));
+                break;
+            case CANCEL: this.stateMachine = new StateMachine<>(new CancelState(this));
+                break;
+            case PARTIAL_CANCEL: this.stateMachine = new StateMachine<>(new PartialCancelState(this, flipOrientation));
+                break;
+            case WAVE_DASH: this.stateMachine = new StateMachine<>(new WaveDashState(this, flipOrientation));
+                break;
+            case DOUBLE_WAVE_DASH: this.stateMachine = new StateMachine<>(new DoubleWaveDashState(this, flipOrientation));
+                break;
             default: this.stateMachine = new StateMachine<>(new Finished(this));
-            break;
+                break;
         }
         this.isFinished = false;
     }

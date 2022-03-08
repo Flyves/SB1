@@ -2,6 +2,10 @@ package bot.flyve.states.kickoff;
 
 import bot.flyve.states.game_started.GameStarted;
 import bot.flyve.states.kickoff.states.*;
+import util.data_structure.tupple.Tuple3;
+import util.math.statistics.StatisticalData;
+import util.rocket_league.controllers.ground.throttle.SpeedController;
+import util.rocket_league.controllers.ground.steer.AngularVelocityController;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -10,6 +14,10 @@ import util.state_machine.StateMachine;
 public class Kickoff extends State<DataPacket, ControlsOutput> {
 
     private StateMachine<DataPacket, ControlsOutput> stateMachine;
+
+    private AngularVelocityController angularVelocityController;
+
+    StatisticalData<Double> statisticalData = new StatisticalData<>(60);
 
     @Override
     public void start(DataPacket input) {
@@ -29,11 +37,11 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
             default: startingState = null;
         }
         stateMachine = new StateMachine<>(startingState);
+        angularVelocityController = new AngularVelocityController();
     }
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        //System.out.println(input.humanCars.get(0).hasSecondJump);
         return stateMachine.exec(input);
     }
 
