@@ -29,6 +29,10 @@ public class OrientationController implements Behaviour<Tuple3<ExtendedCarData, 
         final double maxAngularVelocity = computeMaxAngularVelocity(io, correctionAngle);
         // TODO : take into account the angular velocity instead of just the angle
         //        something like "correctionAngle * CONVERGENCE_RATE * Math.abs(io.value1.angularVelocity.dotProduct(io.value1.orientation.roof))"
+
+        // TODO : don't forget that the target is moving when we are rotating towards it and it's close by.
+        //        We need to compute it's apparent angular velocity from the car's center, and take that angular velocity into account when turning.
+        //        It's probably an intersection of 2 lines on a graph or something.
         return signedClamp(correctionAngle * CONVERGENCE_RATE, maxAngularVelocity);
     }
 
