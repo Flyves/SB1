@@ -11,7 +11,7 @@ public class SpeedController implements Behaviour<Tuple3<ExtendedCarData, Contro
     public ControlsOutput exec(Tuple3<ExtendedCarData, ControlsOutput, Double> io) {
         if(!io.value1.hasWheelContact) throw new GroundDrivingInMidAirException();
 
-        final double speed = io.value1.velocity.dotProduct(io.value1.orientation.nose);
+        final double speed = io.value1.groundSpeedForward;
         final double desiredSpeed = io.value3;
 
         if(desiredSpeed < 1410) {

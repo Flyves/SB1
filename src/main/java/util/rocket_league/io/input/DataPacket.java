@@ -1,6 +1,9 @@
 package util.rocket_league.io.input;
 
 import rlbot.flat.GameTickPacket;
+import util.data_structure.bvh.Bvh;
+import util.data_structure.bvh.bounding_volume_hierarchy.basic.Queryable;
+import util.data_structure.bvh.shape.Sphere;
 import util.math.vector.Vector3;
 import util.rocket_league.Constants;
 import util.rocket_league.dynamic_objects.boost.BoostManager;
@@ -8,6 +11,7 @@ import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.rocket_league.io.output.OutputFinder;
+import util.rocket_league.playfield.Standard;
 import util.rocket_league.team.TeamType;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class DataPacket {
+    public static final Bvh BVH_MAP = new Bvh(Standard.FILE_LOCATION);
     public final Vector3 gravityVector;
     public final int botIndex;
     public final List<ExtendedCarData> allCars;

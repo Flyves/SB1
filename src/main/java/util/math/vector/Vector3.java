@@ -141,6 +141,10 @@ public class Vector3 implements Serializable {
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     }
 
+    public double distanceSquared(Vector3 other) {
+        return minus(other).magnitudeSquared();
+    }
+
     public Vector3 inverse() {
         return new Vector3(1/x, 1/y, 1/z);
     }

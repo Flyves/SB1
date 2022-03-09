@@ -11,12 +11,12 @@ import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 
-public class GoToFirstDestination extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
+public class TurnTowardSecondDestination extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
     private final BiDestinationNavigator biDestinationNavigator;
     private final BiDestinationProfile biDestinationProfile;
     private final OrientationController orientationController;
 
-    public GoToFirstDestination(
+    public TurnTowardSecondDestination(
             final BiDestinationNavigator biDestinationNavigator,
             final BiDestinationProfile biDestinationProfile) {
         this.biDestinationNavigator = biDestinationNavigator;
@@ -27,20 +27,19 @@ public class GoToFirstDestination extends State<Tuple2<ExtendedCarData, Controls
     }
 
     @Override
-    public ControlsOutput exec(final Tuple2<ExtendedCarData, ControlsOutput> io) {
-        return orientationController.exec(new Tuple3<>(io.value1, io.value2, biDestinationProfile.firstDestination));
+    public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
+        return orientationController.exec(new Tuple3<>(io.value1, io.value2, biDestinationProfile.secondDestination));
     }
 
     @Override
-    public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(final Tuple2<ExtendedCarData, ControlsOutput> io) {
-        if(firstDestinationReached(io)) {
-            new BiDestinationNavigatorFinisher(biDestinationNavigator).reachFirstDestination();
-            return new TurnTowardSecondDestination(biDestinationNavigator, biDestinationProfile);
+    public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(Tuple2<ExtendedCarData, ControlsOutput> io) {
+        if(secondDestinationReached(io)) {
+            new BiDestinationNavigatorFinisher(biDestinationNavigator).finish();
         }
         return this;
     }
 
-    private boolean firstDestinationReached(Tuple2<ExtendedCarData, ControlsOutput> io) {
-        return biDestinationProfile.firstDestination.distanceSquared(io.value1.position) < 100 * 100;
+    private boolean secondDestinationReached(Tuple2<ExtendedCarData, ControlsOutput> io) {
+        return biDestinationProfile.secondDestination.distanceSquared(io.value1.position) < 100 * 100;
     }
 }

@@ -27,6 +27,7 @@ public class Bot implements rlbot.Bot {
 
         this.pastInputs = new LinkedList<>();
         this.pastOutputs = new LinkedList<>();
+        RenderTasks.init();
     }
 
     @Override
@@ -53,6 +54,7 @@ public class Bot implements rlbot.Bot {
     public static IndexedRenderer getNewIndexedRenderer() {
         return new IndexedRenderer(0);
     }
+
     private boolean dataLooksFishy(GameTickPacket packet) {
         return packet.playersLength() <= playerIndex
                 || packet.ball() == null
@@ -63,6 +65,9 @@ public class Bot implements rlbot.Bot {
         processDefaultInputs(input);
 
         final ControlsOutput controlsOutput = botBehaviour.exec(input);
+
+        RenderTasks.render();
+        RenderTasks.clearTaskBuffer();
 
         // yikes plz fix
         {

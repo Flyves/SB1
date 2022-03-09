@@ -1,16 +1,16 @@
 package util.rocket_league.controllers.jump.jump_sequence.states;
 
 import util.data_structure.tupple.Tuple2;
-import util.rocket_league.controllers.jump.jump_sequence.JumpProfileController;
-import util.rocket_league.controllers.jump.jump_sequence.JumpProfileControllerFinisher;
+import util.rocket_league.controllers.jump.jump_sequence.JumpController;
+import util.rocket_league.controllers.jump.jump_sequence.JumpControllerFinisher;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 
 public class Finished extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
 
-    public Finished(final JumpProfileController jumpProfileController) {
-        new JumpProfileControllerFinisher(jumpProfileController).finish();
+    public Finished(final JumpController jumpController) {
+        new JumpControllerFinisher(jumpController).finish();
     }
 
     @Override

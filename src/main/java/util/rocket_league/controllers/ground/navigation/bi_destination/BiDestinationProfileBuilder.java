@@ -1,7 +1,7 @@
 package util.rocket_league.controllers.ground.navigation.bi_destination;
 
 import util.math.vector.Vector3;
-import util.rocket_league.controllers.ground.steer.GroundSteering;
+import util.rocket_league.controllers.ground.steer.angular_velocity.GroundSteering;
 
 import java.util.function.Function;
 

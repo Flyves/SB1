@@ -152,4 +152,8 @@ public class CarHitBox {
     private Vector3 getGlobal(Vector3 localPoint) {
         return localPoint.rotateFromOrientationReferenceTo(new Orientation(frontOrientation, roofOrientation)).plus(centerPositionOfHitBox);
     }
+
+    public boolean contains(Vector3 point) {
+        return point.minus(closestPointOnSurface(point)).magnitudeSquared() < 0.01;
+    }
 }

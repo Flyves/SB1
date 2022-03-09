@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.steer;
+package util.rocket_league.controllers.ground.steer.angular_velocity;
 
 import util.math.linear_transform.LinearApproximator;
 import util.math.vector.Vector2;
@@ -63,7 +63,7 @@ public abstract class TurnRadius {
      * @return the corresponding radius of the turning circle
      */
     public static Double apply(final Double speed) {
-        return 1/TurnRadius.k.compute(speed);
+        return 1/TurnRadius.k.compute(Math.abs(speed));
     }
 
     /**
@@ -72,6 +72,6 @@ public abstract class TurnRadius {
      * @return the corresponding speed of the car
      */
     public static Double inverse(final Double radius) {
-        return TurnRadius.k.inverse(1/radius);
+        return TurnRadius.k.inverse(Math.abs(1/radius));
     }
 }

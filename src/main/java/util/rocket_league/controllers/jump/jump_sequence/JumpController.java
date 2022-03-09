@@ -13,12 +13,12 @@ import util.state_machine.StateMachine;
 
 // TODO: add a very similar class than this, but it lets us delay the second jump to when we raise a flag or something
 
-public class JumpProfileController implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
+public class JumpController implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
 
     private StateMachine<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> stateMachine;
     private boolean isFinished;
 
-    public JumpProfileController(final ExtendedCarData car, final JumpProfile jumpProfile) {
+    public JumpController(final ExtendedCarData car, final JumpProfile jumpProfile) {
         if(car.hasWheelContact) {
             this.stateMachine = new StateMachine<>(new FirstJump(this, car, jumpProfile));
         }

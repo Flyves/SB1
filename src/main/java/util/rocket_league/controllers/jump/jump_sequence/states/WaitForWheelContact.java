@@ -2,18 +2,18 @@ package util.rocket_league.controllers.jump.jump_sequence.states;
 
 import util.data_structure.tupple.Tuple2;
 import util.rocket_league.controllers.jump.jump_sequence.JumpProfile;
-import util.rocket_league.controllers.jump.jump_sequence.JumpProfileController;
+import util.rocket_league.controllers.jump.jump_sequence.JumpController;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 
 public class WaitForWheelContact extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
 
-    private final JumpProfileController jumpProfileController;
+    private final JumpController jumpController;
     private final JumpProfile jumpProfile;
 
-    public WaitForWheelContact(final JumpProfileController jumpProfileController, final JumpProfile jumpProfile) {
-        this.jumpProfileController = jumpProfileController;
+    public WaitForWheelContact(final JumpController jumpController, final JumpProfile jumpProfile) {
+        this.jumpController = jumpController;
         this.jumpProfile = jumpProfile;
     }
 
@@ -25,7 +25,7 @@ public class WaitForWheelContact extends State<Tuple2<ExtendedCarData, ControlsO
     @Override
     public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(io.value1.hasWheelContact) {
-            return new FirstJump(jumpProfileController, io.value1, jumpProfile);
+            return new FirstJump(jumpController, io.value1, jumpProfile);
         }
         return this;
     }

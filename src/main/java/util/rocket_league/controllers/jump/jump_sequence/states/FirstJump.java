@@ -3,7 +3,7 @@ package util.rocket_league.controllers.jump.jump_sequence.states;
 import util.data_structure.tupple.Tuple2;
 import util.rocket_league.controllers.jump.first.GroundJumpController;
 import util.rocket_league.controllers.jump.jump_sequence.JumpProfile;
-import util.rocket_league.controllers.jump.jump_sequence.JumpProfileController;
+import util.rocket_league.controllers.jump.jump_sequence.JumpController;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -11,14 +11,14 @@ import util.state_machine.State;
 public class FirstJump extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
 
     private GroundJumpController groundJumpController;
-    private final JumpProfileController jumpProfileController;
+    private final JumpController jumpController;
     private final JumpProfile jumpProfile;
 
     public FirstJump(
-            final JumpProfileController jumpProfileController,
+            final JumpController jumpController,
             final ExtendedCarData extendedCarData,
             final JumpProfile jumpProfile) {
-        this.jumpProfileController = jumpProfileController;
+        this.jumpController = jumpController;
         this.groundJumpController = new GroundJumpController(extendedCarData, jumpProfile.initialImpulse);
         this.jumpProfile = jumpProfile;
     }
@@ -32,14 +32,14 @@ public class FirstJump extends State<Tuple2<ExtendedCarData, ControlsOutput>, Co
     public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(groundJumpController.isFinished()) {
             try {
-                return new SecondJump(jumpProfileController, io.value1, jumpProfile);
+                return new SecondJump(jumpController, io.value1, jumpProfile);
             }
             catch (final Exception e) {
                 try {
-                    return new FirstJump(jumpProfileController, io.value1, jumpProfile);
+                    return new FirstJump(jumpController, io.value1, jumpProfile);
                 }
                 catch (final Exception e2) {
-                    return new Finished(jumpProfileController);
+                    return new Finished(jumpController);
                 }
             }
         }

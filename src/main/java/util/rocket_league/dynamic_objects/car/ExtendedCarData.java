@@ -18,6 +18,9 @@ public class ExtendedCarData extends CarData {
 
     public final Vector3 acceleration;
     public final Vector3 angularAcceleration;
+    public final double groundAngularVelocity;
+    public final double groundSpeed;
+    public final double groundSpeedForward;
 
     /**
      * 0 for blue team, 1 for orange team.
@@ -41,6 +44,9 @@ public class ExtendedCarData extends CarData {
 
         this.acceleration = computeAcceleration(playerIndex, partiallyLoadedInput);
         this.angularAcceleration = computeAngularAcceleration(playerIndex, partiallyLoadedInput);
+        this.groundAngularVelocity = angularVelocity.dotProduct(orientation.roof);
+        this.groundSpeed = velocity.minus(velocity.projectOnto(orientation.roof)).magnitude();
+        this.groundSpeedForward = velocity.dotProduct(orientation.nose);
 
         this.hasWheelContact = playerInfo.hasWheelContact();
         this.hasUsedFirstJump = playerInfo.jumped();

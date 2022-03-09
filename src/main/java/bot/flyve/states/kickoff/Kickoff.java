@@ -2,10 +2,11 @@ package bot.flyve.states.kickoff;
 
 import bot.flyve.states.game_started.GameStarted;
 import bot.flyve.states.kickoff.states.*;
-import util.data_structure.tupple.Tuple3;
+import util.data_structure.tupple.Tuple2;
 import util.math.statistics.StatisticalData;
-import util.rocket_league.controllers.ground.throttle.SpeedController;
-import util.rocket_league.controllers.ground.steer.AngularVelocityController;
+import util.math.vector.Vector3;
+import util.rocket_league.controllers.ground.navigation.bi_destination.BiDestinationNavigator;
+import util.rocket_league.controllers.ground.navigation.bi_destination.BiDestinationProfileBuilder;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -15,7 +16,7 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
 
     private StateMachine<DataPacket, ControlsOutput> stateMachine;
 
-    private AngularVelocityController angularVelocityController;
+    private BiDestinationNavigator biDestinationNavigator;
 
     StatisticalData<Double> statisticalData = new StatisticalData<>(60);
 
@@ -37,12 +38,19 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
             default: startingState = null;
         }
         stateMachine = new StateMachine<>(startingState);
-        angularVelocityController = new AngularVelocityController();
+        biDestinationNavigator = new BiDestinationNavigator(new BiDestinationProfileBuilder()
+                .withFirstDestination(new Vector3())
+                .withSecondDestination(new Vector3(0, 3000, 0))
+                .withAngularVelocity(v -> 3.0)
+                .build());
     }
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        return stateMachine.exec(input);
+        //return stateMachine.exec(input);
+        final ControlsOutput controlsOutput = new ControlsOutput();
+        controlsOutput.throttle = 1f;
+        return biDestinationNavigator.exec(new Tuple2<>(input.car, controlsOutput));
     }
 
     @Override
