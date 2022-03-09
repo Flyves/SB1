@@ -9,7 +9,7 @@ public class OrientationProfileBuilder implements Builder<OrientationProfile> {
     private Function<Double, Double> angularVelocityFunction;
 
     public OrientationProfileBuilder() {
-        this.angularVelocityFunction = GroundSteering::findMaxSpin;
+        this.angularVelocityFunction = GroundSteering::findMaxAngularVelocity;
     }
 
     /**

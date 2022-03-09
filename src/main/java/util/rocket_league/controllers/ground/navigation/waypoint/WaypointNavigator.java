@@ -24,7 +24,7 @@ public class WaypointNavigator implements Behaviour<Tuple2<ExtendedCarData, Cont
     public WaypointNavigator(final WaypointNavigatorProfile waypointNavigatorProfile) {
         this.waypoints = new LinkedList<>(waypointNavigatorProfile.waypoints);
         this.waypointNavigatorProfile = waypointNavigatorProfile;
-        if(!isFinished()) setNextWaypoint(waypointNavigatorProfile);
+        if(!waypoints.isEmpty()) setNextWaypoint(waypointNavigatorProfile);
     }
 
     private void setNextWaypoint(final WaypointNavigatorProfile waypointNavigatorProfile) {
@@ -39,7 +39,7 @@ public class WaypointNavigator implements Behaviour<Tuple2<ExtendedCarData, Cont
     @Override
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(this.isFinished()) return io.value2;
-        if(destinationNavigator.isFinished()) {
+        if(destinationNavigator == null || destinationNavigator.isFinished()) {
             setNextWaypoint(waypointNavigatorProfile);
         }
         RenderTasks.append(r -> r.drawLine3d(Color.red, activeWaypoint.toFlatVector(), activeWaypoint.plus(new Vector3(0, 0, 300)).toFlatVector()));

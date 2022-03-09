@@ -2,13 +2,20 @@ package util.rocket_league.controllers.ground.navigation.waypoint;
 
 import util.data_structure.builder.Builder;
 import util.math.vector.Vector3;
+import util.rocket_league.controllers.ground.steer.angular_velocity.GroundSteering;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
 public class WaypointNavigatorProfileBuilder implements Builder<WaypointNavigatorProfile> {
     private Function<Double, Double> angularVelocityFunction;
     private List<Vector3> waypoints;
+
+    public WaypointNavigatorProfileBuilder() {
+        angularVelocityFunction = GroundSteering::findMaxAngularVelocity;
+        waypoints = new LinkedList<>();
+    }
 
     /**
      *  Use this building method to set the dynamic angular velocity expected when turning on the first destination.

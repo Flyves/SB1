@@ -21,13 +21,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Kickoff extends State<DataPacket, ControlsOutput> {
-
     private StateMachine<DataPacket, ControlsOutput> stateMachine;
-
-    private WaypointNavigator waypointNavigator;
-    private SpeedController speedController;
-
-    StatisticalData<Double> statisticalData = new StatisticalData<>(60);
 
     @Override
     public void start(DataPacket input) {
@@ -47,24 +41,11 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
             default: startingState = null;
         }
         stateMachine = new StateMachine<>(startingState);
-        waypointNavigator = new WaypointNavigator(new WaypointNavigatorProfileBuilder()
-                .withAngularVelocity(v -> 3.0)
-                .withWaypoints(Arrays.stream(new Vector3[10])
-                        .map(v -> Vector3.random())
-                        .map(v -> v.minus(new Vector3(0.5, 0.5, 0)))
-                        .map(v -> v.scaled(2))
-                        .map(v -> v.scaled(3000, 4000, 0))
-                        .collect(Collectors.toList()))
-                .build());
-        speedController = new SpeedController();
     }
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        //return stateMachine.exec(input);
-        final ControlsOutput controlsOutput = new ControlsOutput();
-        if(!waypointNavigator.isFinished()) speedController.exec(new Tuple3<>(input.car, controlsOutput, 1410.0));
-        return waypointNavigator.exec(new Tuple2<>(input.car, controlsOutput));
+        return stateMachine.exec(input);
     }
 
     @Override

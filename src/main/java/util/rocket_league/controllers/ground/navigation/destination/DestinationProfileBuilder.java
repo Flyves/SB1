@@ -11,7 +11,7 @@ public class DestinationProfileBuilder {
 
     public DestinationProfileBuilder() {
         firstDestination = new Vector3();
-        angularVelocityFunction = GroundSteering::findMaxSpin;
+        angularVelocityFunction = GroundSteering::findMaxAngularVelocity;
     }
 
     public DestinationProfileBuilder withDestination(final Vector3 firstDestination) {

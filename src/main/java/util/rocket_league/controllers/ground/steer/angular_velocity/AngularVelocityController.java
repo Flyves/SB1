@@ -37,7 +37,7 @@ public class AngularVelocityController implements Behaviour<Tuple3<ExtendedCarDa
             final double steer) {
         return Math.abs(steer) > 1
                 && Math.abs(desiredAngularVelocity) - Math.abs(angularVelocity) > 0
-                && Math.abs(angularVelocity) > GroundSteering.findMaxSpin(carSpeed) * 0.9
+                && Math.abs(angularVelocity) > GroundSteering.findMaxAngularVelocity(carSpeed) * 0.9
                 && isPositive(angularVelocity) == isPositive(desiredAngularVelocity);
     }
 
