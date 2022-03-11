@@ -5,31 +5,33 @@ import util.math.vector.Vector3;
 import util.renderers.RenderTasks;
 import util.rocket_league.controllers.ground.navigation.destination.DestinationNavigator;
 import util.rocket_league.controllers.ground.navigation.destination.DestinationProfileBuilder;
+import util.rocket_league.dynamic_objects.boost.BoostPad;
+import util.rocket_league.dynamic_objects.boost.BoostPadManager;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.Behaviour;
 import util.state_machine.Finishable;
 
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 public class WaypointNavigator implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
-    private final List<Vector3> waypoints;
+    private final LinkedHashSet<Vector3> waypoints;
     private final WaypointNavigatorProfile waypointNavigatorProfile;
     private DestinationNavigator destinationNavigator;
     private Vector3 activeWaypoint;
 
     public WaypointNavigator(final WaypointNavigatorProfile waypointNavigatorProfile) {
-        this.waypoints = new LinkedList<>(waypointNavigatorProfile.waypoints);
+        this.waypoints = new LinkedHashSet<>(waypointNavigatorProfile.waypoints);
         this.waypointNavigatorProfile = waypointNavigatorProfile;
-        if(!waypoints.isEmpty()) setNextWaypoint(waypointNavigatorProfile);
+        if(!waypoints.isEmpty()) setNextWaypoint();
     }
 
-    private void setNextWaypoint(final WaypointNavigatorProfile waypointNavigatorProfile) {
-        activeWaypoint = waypoints.get(0);
+    private void setNextWaypoint() {
+        activeWaypoint = waypoints.stream().findFirst().get();
         this.destinationNavigator = new DestinationNavigator(new DestinationProfileBuilder()
+                .withCollision(waypointNavigatorProfile.collisionFunction)
                 .withAngularVelocity(waypointNavigatorProfile.angularVelocityFunction)
                 .withDestination(activeWaypoint)
                 .build());
@@ -40,7 +42,7 @@ public class WaypointNavigator implements Behaviour<Tuple2<ExtendedCarData, Cont
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(this.isFinished()) return io.value2;
         if(destinationNavigator == null || destinationNavigator.isFinished()) {
-            setNextWaypoint(waypointNavigatorProfile);
+            setNextWaypoint();
         }
         RenderTasks.append(r -> r.drawLine3d(Color.red, activeWaypoint.toFlatVector(), activeWaypoint.plus(new Vector3(0, 0, 300)).toFlatVector()));
         waypoints.forEach(waypoint -> {
@@ -51,10 +53,10 @@ public class WaypointNavigator implements Behaviour<Tuple2<ExtendedCarData, Cont
 
     @Override
     public boolean isFinished() {
-        return waypoints.isEmpty() && destinationNavigator.isFinished();
+        return waypoints.isEmpty() && (destinationNavigator == null || destinationNavigator.isFinished());
     }
 
-    public List<Vector3> remainingWaypoints() {
+    public HashSet<Vector3> remainingWaypoints() {
         return waypoints;
     }
 

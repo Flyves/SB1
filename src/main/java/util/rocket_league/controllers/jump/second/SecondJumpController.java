@@ -16,13 +16,11 @@ public class SecondJumpController implements Behaviour<Tuple2<ExtendedCarData, C
     private final StateMachine<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> stateMachine;
     private boolean isFinished;
 
-    public SecondJumpController(final ExtendedCarData extendedCarData, final SecondJumpType secondJumpType) {
-        this(extendedCarData, secondJumpType, DEFAULT_FLIP_DIRECTION);
+    public SecondJumpController(final SecondJumpType secondJumpType) {
+        this(secondJumpType, DEFAULT_FLIP_DIRECTION);
     }
 
-    public SecondJumpController(final ExtendedCarData extendedCarData, final SecondJumpType secondJumpType, final Vector2 flipOrientation) {
-        if(extendedCarData.hasWheelContact) throw new SecondJumpWithWheelContactException();
-        if(!extendedCarData.hasSecondJump) throw new SecondJumpLossException();
+    public SecondJumpController(final SecondJumpType secondJumpType, final Vector2 flipOrientation) {
         switch (secondJumpType) {
             case SECOND_JUMP: this.stateMachine = new StateMachine<>(new SecondJump(this));
                 break;

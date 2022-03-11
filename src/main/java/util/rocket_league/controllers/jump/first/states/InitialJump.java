@@ -3,6 +3,7 @@ package util.rocket_league.controllers.jump.first.states;
 import util.data_structure.tupple.Tuple2;
 import util.rocket_league.controllers.jump.first.GroundJumpController;
 import util.rocket_league.controllers.jump.first.GroundJumpControllerHandler;
+import util.rocket_league.controllers.jump.first.GroundJumpWithoutWheelContactException;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -17,6 +18,7 @@ public class InitialJump extends BaseState {
 
     @Override
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
+        if(!io.value1.hasWheelContact) throw new GroundJumpWithoutWheelContactException();
         io.value2.isJumping = true;
         return io.value2;
     }

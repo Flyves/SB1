@@ -17,6 +17,7 @@ public class FlipState extends BaseState {
     @Override
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(frameCount() == 0) {
+            BaseState.validateCanSecondJump(io.value1);
             io.value2.isJumping = true;
             io.value2.pitch = (float)-flipOrientation.y;
             io.value2.yaw = 0;

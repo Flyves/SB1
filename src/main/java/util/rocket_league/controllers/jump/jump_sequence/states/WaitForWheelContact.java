@@ -25,7 +25,7 @@ public class WaitForWheelContact extends State<Tuple2<ExtendedCarData, ControlsO
     @Override
     public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(io.value1.hasWheelContact) {
-            return new FirstJump(jumpController, io.value1, jumpProfile);
+            return new FirstJump(jumpController, jumpProfile);
         }
         return this;
     }

@@ -11,12 +11,12 @@ import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 
-public class GoToFirstDestination extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
+public class GoToDestination extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
     private final DestinationNavigator destinationNavigator;
     private final DestinationProfile destinationProfile;
     private final OrientationController orientationController;
 
-    public GoToFirstDestination(
+    public GoToDestination(
             final DestinationNavigator destinationNavigator,
             final DestinationProfile destinationProfile) {
         this.destinationNavigator = destinationNavigator;
@@ -28,7 +28,7 @@ public class GoToFirstDestination extends State<Tuple2<ExtendedCarData, Controls
 
     @Override
     public ControlsOutput exec(final Tuple2<ExtendedCarData, ControlsOutput> io) {
-        return orientationController.exec(new Tuple3<>(io.value1, io.value2, destinationProfile.firstDestination));
+        return orientationController.exec(new Tuple3<>(io.value1, io.value2, destinationProfile.destination));
     }
 
     @Override
@@ -40,6 +40,6 @@ public class GoToFirstDestination extends State<Tuple2<ExtendedCarData, Controls
     }
 
     private boolean firstDestinationReached(Tuple2<ExtendedCarData, ControlsOutput> io) {
-        return destinationProfile.firstDestination.distanceSquared(io.value1.position) < 100 * 100;
+        return destinationProfile.collisionFunction.apply(io.value1, destinationProfile.destination);
     }
 }

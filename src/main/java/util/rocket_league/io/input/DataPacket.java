@@ -2,11 +2,9 @@ package util.rocket_league.io.input;
 
 import rlbot.flat.GameTickPacket;
 import util.data_structure.bvh.Bvh;
-import util.data_structure.bvh.bounding_volume_hierarchy.basic.Queryable;
-import util.data_structure.bvh.shape.Sphere;
 import util.math.vector.Vector3;
 import util.rocket_league.Constants;
-import util.rocket_league.dynamic_objects.boost.BoostManager;
+import util.rocket_league.dynamic_objects.boost.BoostPadManager;
 import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
@@ -92,22 +90,19 @@ public class DataPacket {
     }
 
     private void handleDataLoading(final GameTickPacket request) {
-        synchronized(dataLoaded) {
-            if(!dataLoaded.get()) {
-                loadData(request);
-                dataLoaded.set(true);
-            }
-
-            botCountForDataLoading.incrementAndGet();
-            if(botCountForDataLoading.get() >= request.playersLength()) {
-                dataLoaded.set(false);
-                botCountForDataLoading.set(0);
+        synchronized(BoostPadManager.boostPads) {
+            synchronized(BoostPadManager.boostPadGraphWrapper) {
+                synchronized(BoostPadManager.bigBoosts) {
+                    synchronized(BoostPadManager.smallBoosts) {
+                        loadData(request);
+                    }
+                }
             }
         }
     }
 
     private void loadData(GameTickPacket request) {
-        BoostManager.loadGameTickPacket(request);
+        BoostPadManager.loadGameTickPacket(request);
     }
 
     private List<ControlsOutput> findOutputListOfAllCars(final DataPacket input) {

@@ -50,6 +50,6 @@ public enum KickoffPosition {
     }
 
     public static boolean kickoffFinished(DataPacket input) {
-        return !(input.ball.velocity.magnitudeSquared() < 1 && input.ball.position.flatten().magnitudeSquared() < 1);
+        return !(input.ball.velocity.magnitudeSquared() < 1); //&& input.ball.position.flatten().magnitudeSquared() < 1);
     }
 }

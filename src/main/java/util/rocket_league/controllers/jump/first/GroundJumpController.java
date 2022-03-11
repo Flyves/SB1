@@ -23,8 +23,7 @@ public class GroundJumpController implements Behaviour<Tuple2<ExtendedCarData, C
 
     final StateMachine<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> stateMachine;
 
-    public GroundJumpController(final ExtendedCarData extendedCarData, double desiredImpulse) {
-        if(!extendedCarData.hasWheelContact) throw new GroundJumpWithoutWheelContactException();
+    public GroundJumpController(double desiredImpulse) {
         if(desiredImpulse > MAX_JUMP_IMPULSE) {
             desiredImpulse = MAX_JUMP_IMPULSE;
         }

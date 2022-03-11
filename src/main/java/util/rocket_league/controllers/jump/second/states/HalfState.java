@@ -14,7 +14,7 @@ public class HalfState extends BaseState {
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         final ControlsOutput output = new ControlsOutput();
         if(frameCount() == 0) {
-            System.out.println("executing second flip");
+            BaseState.validateCanSecondJump(io.value1);
             output.isJumping = true;
             output.pitch = 1;
             output.yaw = 0;

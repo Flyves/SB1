@@ -33,7 +33,7 @@ public class BoostPad {
         this.location = location;
         this.isBigBoost = isBigBoost;
         this.boostId = boostId;
-        this.boostAmount = isBigBoost ? BoostManager.BIG_BOOST_AMOUNT : BoostManager.SMALL_BOOST_AMOUNT;
+        this.boostAmount = isBigBoost ? BoostPadManager.BIG_BOOST_AMOUNT : BoostPadManager.SMALL_BOOST_AMOUNT;
 
         this.isActive = false;
         this.timeBeforeReloaded = 0;

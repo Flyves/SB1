@@ -20,7 +20,7 @@ import java.util.Optional;
  * This class is here for your convenience, it is NOT part of the framework. You can change it as much
  * as you want, or delete it.
  */
-public class BoostManager {
+public class BoostPadManager {
 
     public static final double BIG_BOOST_RELOAD_TIME = 10;
     public static final double BIG_BOOST_AMOUNT = 100;
@@ -30,42 +30,40 @@ public class BoostManager {
     public static final List<BoostPad> boostPads = new ArrayList<>();
     public static final List<BoostPad> bigBoosts = new ArrayList<>();
     public static final List<BoostPad> smallBoosts = new ArrayList<>();
+    public static final BoostPadGraph boostPadGraphWrapper = new BoostPadGraph();
 
     private static void loadFieldInfo(FieldInfo fieldInfo) {
-        synchronized (boostPads) {
-            boostPads.clear();
-            bigBoosts.clear();
-            smallBoosts.clear();
+        boostPads.clear();
+        bigBoosts.clear();
+        smallBoosts.clear();
 
-            for(int i = 0; i < fieldInfo.boostPadsLength(); i++) {
-                rlbot.flat.BoostPad flatPad = fieldInfo.boostPads(i);
-                boolean isBigBoost = flatPad.isFullBoost();
-                Vector3 location = new Vector3(flatPad.location());
-                BoostPad ourPad = new BoostPad(
-                        new Vector3(flatPad.location()),
-                        flatPad.isFullBoost(),
-                        isBigBoost ? new BigBoostHitBox(location) : new SmallBoostHitBox(location),
-                        i);
-                boostPads.add(ourPad);
-                if(ourPad.isBigBoost) {
-                    bigBoosts.add(ourPad);
-                }
-                else {
-                    smallBoosts.add(ourPad);
-                }
+        for(int i = 0; i < fieldInfo.boostPadsLength(); i++) {
+            final rlbot.flat.BoostPad flatPad = fieldInfo.boostPads(i);
+            final boolean isBigBoost = flatPad.isFullBoost();
+            final Vector3 location = new Vector3(flatPad.location());
+            final BoostPad ourPad = new BoostPad(
+                    new Vector3(flatPad.location()),
+                    flatPad.isFullBoost(),
+                    isBigBoost ? new BigBoostHitBox(location) : new SmallBoostHitBox(location),
+                    i);
+            boostPads.add(ourPad);
+            if(ourPad.isBigBoost) {
+                bigBoosts.add(ourPad);
+            }
+            else {
+                smallBoosts.add(ourPad);
             }
         }
+        boostPadGraphWrapper.update(boostPads, 1.1);
     }
 
     public static void loadGameTickPacket(GameTickPacket packet) {
-        if(packet.boostPadStatesLength() > boostPads.size()) {
-            try {
-                loadFieldInfo(RLBotDll.getFieldInfo());
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
+        try {
+            loadFieldInfo(RLBotDll.getFieldInfo());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
 
         for(int i = 0; i < packet.boostPadStatesLength(); i++) {
@@ -87,7 +85,7 @@ public class BoostManager {
     }
 
     public static Optional<BoostPad> closestActivePadFrom(Vector3 position) {
-        return BoostManager.boostPads.stream().min(new Comparator<BoostPad>() {
+        return BoostPadManager.boostPads.stream().min(new Comparator<BoostPad>() {
             @Override
             public int compare(BoostPad o1, BoostPad o2) {
                 if(!o1.isActive) {

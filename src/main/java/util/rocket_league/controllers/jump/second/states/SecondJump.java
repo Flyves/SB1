@@ -13,6 +13,7 @@ public class SecondJump extends BaseState {
     @Override
     public ControlsOutput exec(Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(frameCount() == 0) {
+            BaseState.validateCanSecondJump(io.value1);
             io.value2.isJumping = true;
             io.value2.pitch = 0;
             io.value2.yaw = 0;
