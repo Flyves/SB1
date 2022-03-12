@@ -164,4 +164,8 @@ public class Vector2 implements Serializable {
     public Vector2 inverse() {
         return new Vector2(1/x, 1/y);
     }
+
+    public Vector2 flip() {
+        return new Vector2(y, x);
+    }
 }

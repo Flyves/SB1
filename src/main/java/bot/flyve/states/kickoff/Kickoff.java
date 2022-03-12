@@ -56,7 +56,7 @@ public class Kickoff extends State<DataPacket, ControlsOutput> {
         return this;
     }
 
-    private boolean isKickoffDone(DataPacket input) {
+    private boolean isKickoffDone(final DataPacket input) {
         return KickoffPosition.kickoffFinished(input);
     }
 }

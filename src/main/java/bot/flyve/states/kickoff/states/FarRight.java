@@ -1,4 +1,4 @@
 package bot.flyve.states.kickoff.states;
 
-public class FarRight extends BaseState {
+public class FarRight extends FarSide {
 }

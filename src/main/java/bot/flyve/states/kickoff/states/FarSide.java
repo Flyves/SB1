@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class Middle extends BaseState {
+public abstract class FarSide extends BaseState {
     @Override
     public void start(final DataPacket input) {
         List<Vector3> waypointList = new ArrayList<>(generateBasicBoostPath(input));
-        waypointList.remove(2);
+        waypointList.remove(1);
         waypoints = new LinkedHashSet<>(waypointList);
         super.start(input);
     }

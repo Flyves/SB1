@@ -1,4 +1,4 @@
 package bot.flyve.states.kickoff.states;
 
-public class MiddleLeft extends BaseState {
+public class MiddleLeft extends MiddleSide {
 }
