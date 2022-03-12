@@ -11,7 +11,7 @@ public class DestinationProfile {
     public final BiFunction<ExtendedCarData, Vector3, Boolean>  collisionFunction;
     public final Function<Double, Double> angularVelocityFunction;
 
-    public DestinationProfile(
+    DestinationProfile(
             final Vector3 destination,
             final BiFunction<ExtendedCarData, Vector3, Boolean> collisionFunction,
             final Function<Double, Double> angularVelocityFunction) {

@@ -6,13 +6,19 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import java.util.List;
 
 public class BoostPadGraph {
+    /**
+     * You should try to keep the greediness between 1 and 10 for useful results.
+     * - 1  = "You can skip this boost pad? Skip it".
+     * - 10 = "Is this boostpad vaguely going in the right direction? Take it".
+     */
+    private static final double BOOSTPAD_GREEDINESS = 1.1;
     private SimpleWeightedGraph<BoostPad, DefaultWeightedEdge> boostPadGraph;
 
     public BoostPadGraph() {
         this.boostPadGraph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
     }
 
-    public void update(final List<BoostPad> boostPadList, final double greedinessFactor) {
+    public void update(final List<BoostPad> boostPadList) {
         // clear the graph
         boostPadGraph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
 
@@ -43,7 +49,7 @@ public class BoostPadGraph {
             final BoostPad edgeSource = boostPadGraph.getEdgeSource(edge);
             final BoostPad edgeTarget = boostPadGraph.getEdgeTarget(edge);
             //final double d2 = edgeSource.location.distance(edgeTarget.location);
-            double greedinessFactorCopy = greedinessFactor;
+            double greedinessFactorCopy = BOOSTPAD_GREEDINESS;
             if(greedinessFactorCopy < 1) {
                 greedinessFactorCopy = 1;
             }

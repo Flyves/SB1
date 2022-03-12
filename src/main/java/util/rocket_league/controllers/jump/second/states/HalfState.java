@@ -19,6 +19,7 @@ public class HalfState extends BaseState {
             output.pitch = 1;
             output.yaw = 0;
             output.roll = 0;
+            return output;
         }
         if(frameCount() > 13 && frameCount() < 60) {
             output.pitch = -1;

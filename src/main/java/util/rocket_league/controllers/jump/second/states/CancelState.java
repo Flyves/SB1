@@ -21,7 +21,7 @@ public class CancelState extends BaseState {
             io.value2.yaw = -1;
             io.value2.roll = 1;
         }
-        if(frameCount() == 1) {
+        else if(frameCount() == 1) {
             io.value2.pitch = 0;
             io.value2.yaw = 1;
             io.value2.roll = -1;

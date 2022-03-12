@@ -25,7 +25,7 @@ public class DestinationProfileBuilder {
     }
 
     /**
-     *  Use this building method to set the collision condition that indicates we reached the destination.
+     *  Use this building method to set the collision condition indicating that we reached the destination.
      * @param collisionFunction a function that indicates whether we reached the destination or not
      * @return the builder object
      */
