@@ -10,6 +10,7 @@ import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.rocket_league.io.output.OutputFinder;
+import util.rocket_league.playfield.PlayfieldNeighborGraph;
 import util.rocket_league.playfield.Standard;
 import util.rocket_league.team.TeamType;
 
@@ -20,7 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class DataPacket {
-    public static final Bvh BVH_MAP = new Bvh(Standard.FILE_LOCATION);
+    public static final Bvh PLAYFIELD_BVH = Standard.BVH;
+    public static final PlayfieldNeighborGraph PLAYFIELD_GRAPH = new PlayfieldNeighborGraph();
     public final Vector3 gravityVector;
     public final int botIndex;
     public final List<ExtendedCarData> allCars;

@@ -1,8 +1,11 @@
 package util.shape;
 
+import util.data_structure.bvh.shape.Sphere;
 import util.math.vector.Vector3;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Triangle3D implements Serializable {
     public final Vector3 point0;

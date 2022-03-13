@@ -3,6 +3,7 @@ package util.math.vector;
 import com.google.flatbuffers.FlatBufferBuilder;
 import rlbot.flat.Rotator;
 import rlbot.gamestate.DesiredVector3;
+import util.data_structure.bvh.shape.Triangle3;
 import util.rocket_league.dynamic_objects.car.Orientation;
 import util.math.matrix.Matrix3By3;
 import util.shape.Plane3D;
@@ -400,5 +401,9 @@ public class Vector3 implements Serializable {
 
     public Orientation asOrientation() {
         return new Orientation().rotate(this);
+    }
+
+    public double distanceSquared(Triangle3D triangle) {
+        return distanceSquared(projectOnto(triangle));
     }
 }

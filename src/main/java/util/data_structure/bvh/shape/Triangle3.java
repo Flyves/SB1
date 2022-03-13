@@ -2,8 +2,13 @@ package util.data_structure.bvh.shape;
 
 import util.data_structure.bvh.bounding_volume_hierarchy.AxisAlignedBoundingBox;
 import util.data_structure.bvh.math.Vector3;
+import util.shape.Triangle3D;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A triangle, represented in 3 dimensional space.
@@ -64,5 +69,37 @@ public class Triangle3 implements Serializable {
 
     private double max(double x, double y, double z) {
         return Math.max(x, Math.max(y, z));
+    }
+
+    public Triangle3D toShapeTriangle3D() {
+        final util.math.vector.Vector3 p0 = point0.toMathVector3();
+        final util.math.vector.Vector3 p1 = point1.toMathVector3();
+        final util.math.vector.Vector3 p2 = point2.toMathVector3();
+        return new Triangle3D(p0, p1, p2);
+    }
+
+    public Set<Sphere> asEdgeCollisionSpheres() {
+        final Set<Sphere> collisionSpheres = new HashSet<>();
+        collisionSpheres.add(new Sphere(point0.plus(point1).scaled(0.5), point0.distance(point1)*0.5));
+        collisionSpheres.add(new Sphere(point0.plus(point2).scaled(0.5), point0.distance(point2)*0.5));
+        collisionSpheres.add(new Sphere(point1.plus(point2).scaled(0.5), point1.distance(point2)*0.5));
+        return collisionSpheres;
+    }
+
+    public List<Vector3> asVertexList() {
+        final List<Vector3> vertices = new ArrayList<>();
+        vertices.add(point0);
+        vertices.add(point1);
+        vertices.add(point2);
+        return vertices;
+    }
+
+    @Override
+    public boolean equals(final Object that) {
+        if(!(that instanceof Triangle3)) return false;
+        final Triangle3 thatTriangle = (Triangle3) that;
+        if(thatTriangle.point0.distanceSquared(point0) > 0.01) return false;
+        if(thatTriangle.point1.distanceSquared(point1) > 0.01) return false;
+        return thatTriangle.point2.distanceSquared(point2) <= 0.01;
     }
 }

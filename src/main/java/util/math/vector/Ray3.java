@@ -14,7 +14,7 @@ public class Ray3 implements Renderable {
         this.direction = new Vector3();
     }
 
-    public Ray3(Vector3 offset, Vector3 direction) {
+    public Ray3(final Vector3 offset, final Vector3 direction) {
         this.offset = offset;
         this.direction = direction;
     }

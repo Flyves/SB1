@@ -5,6 +5,7 @@ import bot.flyve.states.kickoff.KickoffPosition;
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector3;
 import util.rocket_league.Constants;
+import util.rocket_league.controllers.ground.navigation.path_generator.WaypointPathGenerator;
 import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigator;
 import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigatorProfileBuilder;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
@@ -36,6 +37,7 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
 
     @Override
     public ControlsOutput exec(DataPacket input) {
+        /*
         final List<BallData> bouncyBalls = input.ballPrediction.stream()
                 .filter(ballData -> {
                     final int index = input.ballPrediction.indexOf(ballData);
@@ -70,7 +72,8 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
         }
         if(waypointNavigator != null && !bouncyBalls.isEmpty()) {
             return waypointNavigator.exec(new Tuple2<>(input.car, new ControlsOutput()));
-        }
+        }*/
+        WaypointPathGenerator.generateGroundPathBetween(input.humanCars.get(0).position, new Vector3(), 100);
         return new ControlsOutput();
     }
 

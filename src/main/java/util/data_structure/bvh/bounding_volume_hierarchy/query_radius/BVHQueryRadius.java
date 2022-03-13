@@ -17,12 +17,14 @@ import java.util.stream.Collectors;
 public class BVHQueryRadius<T> implements Queryable<Sphere, List<T>> {
     private final Optional<Node<AxisAlignedBoundingBox, T>> root;
     private final BiFunction<T, Sphere, Boolean> leafObjectValidator;
+    private final List<T> elements;
 
     public BVHQueryRadius(
             final List<T> elements,
             final Function<T, Vector3> leafObjectPositionMapper,
             final Function<T, AxisAlignedBoundingBox> leafObjectAabbMapper,
             final BiFunction<T, Sphere, Boolean> leafObjectValidator) {
+        this.elements = elements;
         this.leafObjectValidator = leafObjectValidator;
         final Map<Long, T> mortonEncodedElements = MortonMapper.mapElements(
                 elements,
@@ -60,5 +62,13 @@ public class BVHQueryRadius<T> implements Queryable<Sphere, List<T>> {
                 collidingElements::add));
 
         return collidingElements;
+    }
+
+    /**
+     * Getter method to get all the elements used for creating the bvh.
+     * @return The list of elements used to create the bvh.
+     */
+    public List<T> getLeaves() {
+        return elements;
     }
 }

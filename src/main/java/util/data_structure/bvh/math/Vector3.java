@@ -1,6 +1,7 @@
 package util.data_structure.bvh.math;
 
 import util.data_structure.bvh.shape.Triangle3;
+import util.shape.Triangle3D;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -143,5 +144,17 @@ public class Vector3 implements Serializable {
         return this.x == that.x
             && this.y == that.y
             && this.z == that.z;
+    }
+
+    public util.math.vector.Vector3 toMathVector3() {
+        return new util.math.vector.Vector3(x, y, z);
+    }
+
+    public double distance(final Vector3 that) {
+        return this.minus(that).magnitude();
+    }
+
+    public double distanceSquared(Vector3 that) {
+        return this.minus(that).magnitudeSquared();
     }
 }
