@@ -4,6 +4,7 @@ import rlbot.flat.GameTickPacket;
 import util.data_structure.bvh.Bvh;
 import util.math.vector.Vector3;
 import util.rocket_league.Constants;
+import util.rocket_league.dynamic_objects.ball.BallPrediction;
 import util.rocket_league.dynamic_objects.boost.BoostPadManager;
 import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
@@ -32,6 +33,7 @@ public class DataPacket {
     public final BallData ball;
     public final List<DataPacket> pastInputs;
     public final List<List<ControlsOutput>> pastOutputs;
+    public final BallPrediction ballPrediction;
 
     public static final int PAST_INPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
     public static final int PAST_OUTPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
@@ -68,6 +70,9 @@ public class DataPacket {
                 .collect(Collectors.toList()));
         this.ball = new BallData(dataPacketParameters.request.ball());
         handleDataLoading(dataPacketParameters.request);
+
+        // ball prediction
+        this.ballPrediction = new BallPrediction();
 
         // compute new past input
         pastInputs.add(this);

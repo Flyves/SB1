@@ -4,8 +4,6 @@ import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.team.TeamType;
 
-import java.util.List;
-
 public enum KickoffPosition {
     FAR_LEFT,
     MIDDLE_LEFT,

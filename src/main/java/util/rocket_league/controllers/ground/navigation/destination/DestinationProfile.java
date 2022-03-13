@@ -6,16 +6,19 @@ import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class DestinationProfile {
-    public final Vector3 destination;
-    public final BiFunction<ExtendedCarData, Vector3, Boolean>  collisionFunction;
+public class DestinationProfile<T> {
+    public final T destination;
+    public final Function<T, Vector3> positionObjectMapper;
+    public final BiFunction<ExtendedCarData, T, Boolean>  collisionFunction;
     public final Function<Double, Double> angularVelocityFunction;
 
     DestinationProfile(
-            final Vector3 destination,
-            final BiFunction<ExtendedCarData, Vector3, Boolean> collisionFunction,
+            final T destination,
+            final Function<T, Vector3> positionObjectMapper,
+            final BiFunction<ExtendedCarData, T, Boolean> collisionFunction,
             final Function<Double, Double> angularVelocityFunction) {
         this.destination = destination;
+        this.positionObjectMapper = positionObjectMapper;
         this.collisionFunction = collisionFunction;
         this.angularVelocityFunction = angularVelocityFunction;
     }

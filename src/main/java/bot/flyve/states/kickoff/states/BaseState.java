@@ -2,7 +2,7 @@ package bot.flyve.states.kickoff.states;
 
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector3;
-import util.rocket_league.controllers.ground.navigation.boostpad.BoostPadPathGenerator;
+import util.rocket_league.dynamic_objects.boost.BoostPadPathGenerator;
 import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigator;
 import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigatorProfileBuilder;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
@@ -15,19 +15,17 @@ import util.state_machine.State;
 import java.util.LinkedHashSet;
 
 public abstract class BaseState extends State<DataPacket, ControlsOutput> {
-    WaypointNavigator waypointNavigator;
+    WaypointNavigator<Vector3> waypointNavigator;
     LinkedHashSet<Vector3> waypoints;
-
-    public BaseState() {}
 
     @Override
     public void start(final DataPacket input) {
         waypoints.add(input.car.position.minus(input.ball.position).scaled(0, 1, 0).scaledToMagnitude(140));
-        this.waypointNavigator = new WaypointNavigator(new WaypointNavigatorProfileBuilder()
-                .withAngularVelocity(v -> 3.05)
-                .withFlipType(SecondJumpType.FLIP)
+        this.waypointNavigator = new WaypointNavigator<>(new WaypointNavigatorProfileBuilder<Vector3>()
                 .withWaypoints(waypoints)
                 .withTargetSpeed(() -> 2300.0)
+                .withAngularVelocity(v -> 3.05)
+                .withFlipType(SecondJumpType.FLIP)
                 .build());
     }
 

@@ -9,24 +9,27 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class WaypointNavigatorProfile {
-    public final BiFunction<ExtendedCarData, Vector3, Boolean> collisionFunction;
+public class WaypointNavigatorProfile<T> {
+    public final BiFunction<ExtendedCarData, T, Boolean> collisionFunction;
     public final Function<Double, Double> angularVelocityFunction;
-    public final LinkedHashSet<Vector3> waypoints;
+    public final LinkedHashSet<T> waypoints;
+    public final Function<T, Vector3> positionObjectMapper;
     public final SecondJumpType secondJumpType;
     public final Supplier<Double> targetSpeedSupplier;
     public final double minimumBoostAmount;
 
     WaypointNavigatorProfile(
             final Function<Double, Double> angularVelocityFunction,
-            final BiFunction<ExtendedCarData, Vector3, Boolean> collisionFunction,
-            final LinkedHashSet<Vector3> waypoints,
+            final BiFunction<ExtendedCarData, T, Boolean> collisionFunction,
+            final LinkedHashSet<T> waypoints,
+            final Function<T, Vector3> positionObjectMapper,
             final SecondJumpType secondJumpType,
             final Supplier<Double> targetSpeedSupplier,
             final double minimumBoostAmount) {
         this.collisionFunction = collisionFunction;
         this.angularVelocityFunction = angularVelocityFunction;
         this.waypoints = waypoints;
+        this.positionObjectMapper = positionObjectMapper;
         this.secondJumpType = secondJumpType;
         this.targetSpeedSupplier = targetSpeedSupplier;
         this.minimumBoostAmount = minimumBoostAmount;

@@ -2,23 +2,10 @@ package bot.flyve.states.kickoff;
 
 import bot.flyve.states.game_started.GameStarted;
 import bot.flyve.states.kickoff.states.*;
-import util.data_structure.tupple.Tuple2;
-import util.data_structure.tupple.Tuple3;
-import util.math.statistics.StatisticalData;
-import util.math.vector.Vector3;
-import util.rocket_league.controllers.ground.navigation.destination.DestinationNavigator;
-import util.rocket_league.controllers.ground.navigation.destination.DestinationProfileBuilder;
-import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigator;
-import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigatorProfileBuilder;
-import util.rocket_league.controllers.ground.throttle.SpeedController;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 import util.state_machine.StateMachine;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class Kickoff extends State<DataPacket, ControlsOutput> {
     private StateMachine<DataPacket, ControlsOutput> stateMachine;

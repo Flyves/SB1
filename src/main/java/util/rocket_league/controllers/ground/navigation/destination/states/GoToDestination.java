@@ -11,14 +11,14 @@ import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
 
-public class GoToDestination extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
-    private final DestinationNavigator destinationNavigator;
-    private final DestinationProfile destinationProfile;
+public class GoToDestination<T> extends State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> {
+    private final DestinationNavigator<T> destinationNavigator;
+    private final DestinationProfile<T> destinationProfile;
     private final OrientationController orientationController;
 
     public GoToDestination(
-            final DestinationNavigator destinationNavigator,
-            final DestinationProfile destinationProfile) {
+            final DestinationNavigator<T> destinationNavigator,
+            final DestinationProfile<T> destinationProfile) {
         this.destinationNavigator = destinationNavigator;
         this.destinationProfile = destinationProfile;
         this.orientationController = new OrientationController(new OrientationProfileBuilder()
@@ -28,13 +28,14 @@ public class GoToDestination extends State<Tuple2<ExtendedCarData, ControlsOutpu
 
     @Override
     public ControlsOutput exec(final Tuple2<ExtendedCarData, ControlsOutput> io) {
-        return orientationController.exec(new Tuple3<>(io.value1, io.value2, destinationProfile.destination));
+        return orientationController.exec(new Tuple3<>(io.value1, io.value2,
+                destinationProfile.positionObjectMapper.apply(destinationProfile.destination)));
     }
 
     @Override
     public State<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> next(final Tuple2<ExtendedCarData, ControlsOutput> io) {
         if(firstDestinationReached(io)) {
-            new DestinationNavigatorFinisher(destinationNavigator).finish();
+            new DestinationNavigatorFinisher<>(destinationNavigator).finish();
         }
         return this;
     }

@@ -1,6 +1,7 @@
 package feature_fidling;
 
-import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -18,8 +19,9 @@ public class JGraphTDijkstra {
         graph.setEdgeWeight(graph.addEdge("v2", "v4"), 1000);
         graph.setEdgeWeight(graph.addEdge("v3", "v4"), 20);
 
-        DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestPath =
-                new DijkstraShortestPath<>(graph, "v1", "v4");
-        List<DefaultWeightedEdge> shortestPath = dijkstraShortestPath.getPathEdgeList();
+        GraphPath<String, DefaultWeightedEdge> dijkstraShortestPath =
+                new DijkstraShortestPath<>(graph).getPath("v4", "v1");
+        List<String> shortestPath = dijkstraShortestPath.getVertexList();
+        System.out.println(shortestPath);
     }
 }

@@ -1,7 +1,6 @@
 package util.rocket_league.controllers.ground.navigation.destination;
 
 import util.data_structure.tupple.Tuple2;
-import util.math.vector.Vector3;
 import util.rocket_league.controllers.ground.navigation.destination.states.GoToDestination;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
@@ -9,13 +8,13 @@ import util.state_machine.Behaviour;
 import util.state_machine.Finishable;
 import util.state_machine.StateMachine;
 
-public class DestinationNavigator implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
+public class DestinationNavigator<T> implements Behaviour<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput>, Finishable {
     private final StateMachine<Tuple2<ExtendedCarData, ControlsOutput>, ControlsOutput> stateMachine;
-    private final DestinationProfile destinationProfile;
+    private final DestinationProfile<T> destinationProfile;
     private boolean isFinished;
 
-    public DestinationNavigator(final DestinationProfile destinationProfile) {
-        this.stateMachine = new StateMachine<>(new GoToDestination(this, destinationProfile));
+    public DestinationNavigator(final DestinationProfile<T> destinationProfile) {
+        this.stateMachine = new StateMachine<>(new GoToDestination<>(this, destinationProfile));
         this.destinationProfile = destinationProfile;
         this.isFinished = false;
     }
@@ -30,7 +29,7 @@ public class DestinationNavigator implements Behaviour<Tuple2<ExtendedCarData, C
         return isFinished;
     }
 
-    public Vector3 getDestination() {
+    public T getDestination() {
         return destinationProfile.destination;
     }
 

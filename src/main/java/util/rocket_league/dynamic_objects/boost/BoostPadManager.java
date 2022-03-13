@@ -54,7 +54,9 @@ public class BoostPadManager {
                 smallBoosts.add(ourPad);
             }
         }
-        boostPadGraphWrapper.update(boostPads);
+        if(boostPadGraphWrapper.notInitialized()) {
+            boostPadGraphWrapper.init(boostPads);
+        }
     }
 
     public static void loadGameTickPacket(GameTickPacket packet) {

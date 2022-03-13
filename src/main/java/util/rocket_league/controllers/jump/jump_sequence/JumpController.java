@@ -31,13 +31,11 @@ public class JumpController implements Behaviour<Tuple2<ExtendedCarData, Control
     @Override
     public void start(Tuple2<ExtendedCarData, ControlsOutput> io) {
         // skip the execution of WaitForWheelContact if we already have contact
-        if(io.value1.hasWheelContact) {
-            if(jumpProfile.initialImpulse > 0) {
-                this.stateMachine = new StateMachine<>(new FirstJump(this, jumpProfile));
-            }
-            else {
-                this.stateMachine = new StateMachine<>(new Finished(this));
-            }
+        if(io.value1.hasWheelContact && jumpProfile.initialImpulse > 0) {
+            this.stateMachine = new StateMachine<>(new FirstJump(this, jumpProfile));
+        }
+        else {
+            this.stateMachine = new StateMachine<>(new Finished(this));
         }
     }
 

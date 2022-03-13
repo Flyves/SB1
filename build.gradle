@@ -25,8 +25,8 @@ dependencies {
     // This is makes it easy to find the dll when running in intellij, where JVM args don't get passed from gradle.
     runtime files(dllDirectory)
 
-    // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-jdk1.5
-    implementation group: 'org.jgrapht', name: 'jgrapht-jdk1.5', version: '0.7.3'
+    // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
+    implementation("org.jgrapht:jgrapht-core:1.4.0")
 }
 
 

@@ -1,9 +1,9 @@
 package util.rocket_league.controllers.ground.navigation.destination;
 
-public class DestinationNavigatorFinisher {
-    private final DestinationNavigator destinationNavigator;
+public class DestinationNavigatorFinisher<T> {
+    private final DestinationNavigator<T> destinationNavigator;
 
-    public DestinationNavigatorFinisher(final DestinationNavigator destinationNavigator) {
+    public DestinationNavigatorFinisher(final DestinationNavigator<T> destinationNavigator) {
         this.destinationNavigator = destinationNavigator;
     }
 

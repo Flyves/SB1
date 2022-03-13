@@ -64,7 +64,7 @@ public class CarBallCollider {
         final Vector3 JOnBall = JOnCar.scaled(-1).plus(additionalJForBall);
 
         final CarData resultingCar = new CarData(car, Vc.plus(JOnCar.scaled(1/mc)), Wc.plus(Ic.inverse().multiply(Lc).multiply(JOnCar)));
-        final BallData resultingBall = new BallData(ball, Vb.plus(JOnBall.scaled(1/mb)), Wb.plus(Ib.inverse().multiply(Lb).multiply(JOnBall)));
+        final BallData resultingBall = new BallData(ball.position, Vb.plus(JOnBall.scaled(1/mb)), Wb.plus(Ib.inverse().multiply(Lb).multiply(JOnBall)));
 
         return new Tuple2<>(resultingCar, resultingBall);
     }

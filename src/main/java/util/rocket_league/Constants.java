@@ -38,6 +38,7 @@ public class Constants {
     public static final double BOOST_CONSUMPTION_RATE = 33.3333333333;
     public static final double DELTA_V_PER_BOOST_IN_AIR = ACCELERATION_DUE_TO_BOOST_IN_AIR/BOOST_CONSUMPTION_RATE;
     public static final double DELTA_V_PER_BOOST_ON_GROUND = ACCELERATION_DUE_TO_BOOST_ON_GROUND/BOOST_CONSUMPTION_RATE;
+    public static final double BALL_PREDICTION_REFRESH_RATE = 60;
 
     public static double boostToDeltaV(final double boostAmount, boolean isOnGround) {
         return isOnGround ? boostAmount*DELTA_V_PER_BOOST_ON_GROUND : boostAmount*DELTA_V_PER_BOOST_IN_AIR;
