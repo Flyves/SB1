@@ -14,13 +14,13 @@ public class JGraphTDijkstra {
         graph.addVertex("v2");
         graph.addVertex("v3");
         graph.addVertex("v4");
-        graph.setEdgeWeight(graph.addEdge("v1", "v2"), 3);
-        graph.setEdgeWeight(graph.addEdge("v1", "v3"), 4);
+        graph.setEdgeWeight(graph.addEdge("v1", "v2"), 10);
+        graph.setEdgeWeight(graph.addEdge("v1", "v3"), 5);
         graph.setEdgeWeight(graph.addEdge("v2", "v4"), 1000);
-        graph.setEdgeWeight(graph.addEdge("v3", "v4"), 20);
+        graph.setEdgeWeight(graph.addEdge("v3", "v4"), 30);
 
         GraphPath<String, DefaultWeightedEdge> dijkstraShortestPath =
-                new DijkstraShortestPath<>(graph).getPath("v4", "v1");
+                new DijkstraShortestPath<>(graph).getPath("v1", "v4");
         List<String> shortestPath = dijkstraShortestPath.getVertexList();
         System.out.println(shortestPath);
     }

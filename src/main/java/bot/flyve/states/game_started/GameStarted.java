@@ -10,7 +10,6 @@ import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigat
 import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigatorProfileBuilder;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
 import util.rocket_league.dynamic_objects.ball.BallData;
-import util.rocket_league.dynamic_objects.boost.BoostPadManager;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;
@@ -52,7 +51,6 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
                 })
                 .collect(Collectors.toList());
 
-
         if(!bouncyBalls.isEmpty()) {
             destination.value = bouncyBalls.get(0).position.minus(new Vector3(0, 0, Constants.BALL_RADIUS));
             speedHolder.value = input.car.position.minus(bouncyBalls.get(0).position).magnitude()
@@ -73,7 +71,6 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
         if(waypointNavigator != null && !bouncyBalls.isEmpty()) {
             return waypointNavigator.exec(new Tuple2<>(input.car, new ControlsOutput()));
         }*/
-        WaypointPathGenerator.generateGroundPathBetween(input.humanCars.get(0).position, new Vector3(), 100);
         return new ControlsOutput();
     }
 

@@ -1,6 +1,6 @@
 package util.state_machine;
 
-public class StateMachine<I, O> implements Behaviour<I, O> {
+public class StateMachine<I, O> extends State<I, O> {
     private State<I, O> state;
     private State<I, O> nextState;
 
@@ -19,5 +19,10 @@ public class StateMachine<I, O> implements Behaviour<I, O> {
         if(nextState != state) state.stop(input);
 
         return output;
+    }
+
+    @Override
+    public State<I, O> next(I input) {
+        return this;
     }
 }

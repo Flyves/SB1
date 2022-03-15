@@ -3,7 +3,6 @@ package util.math.vector;
 import com.google.flatbuffers.FlatBufferBuilder;
 import rlbot.flat.Rotator;
 import rlbot.gamestate.DesiredVector3;
-import util.data_structure.bvh.shape.Triangle3;
 import util.rocket_league.dynamic_objects.car.Orientation;
 import util.math.matrix.Matrix3By3;
 import util.shape.Plane3D;
@@ -11,7 +10,6 @@ import util.shape.Triangle3D;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * A simple 3d vector class with the most essential operations.
@@ -405,5 +403,18 @@ public class Vector3 implements Serializable {
 
     public double distanceSquared(Triangle3D triangle) {
         return distanceSquared(projectOnto(triangle));
+    }
+
+    public boolean isCompletelyPositive() {
+        return x >= 0 && y >= 0 && z >= 0;
+    }
+
+    /**
+     * Flattens a vector in a specific direction
+     * @param direction the direction in which to flatten the vector
+     * @return the flattened vector
+     */
+    public Vector3 flatten(final Vector3 direction) {
+        return this.minus(this.projectOnto(direction));
     }
 }

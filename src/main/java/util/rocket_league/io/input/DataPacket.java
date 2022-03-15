@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 public class DataPacket {
     public static final Bvh PLAYFIELD_BVH = Standard.BVH;
-    public static final PlayfieldNeighborGraph PLAYFIELD_GRAPH = new PlayfieldNeighborGraph();
     public final Vector3 gravityVector;
     public final int botIndex;
     public final List<ExtendedCarData> allCars;

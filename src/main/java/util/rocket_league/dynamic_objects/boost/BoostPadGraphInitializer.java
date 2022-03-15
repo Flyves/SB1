@@ -11,11 +11,18 @@ public class BoostPadGraphInitializer {
      * - 1  = "You can skip this boost pad? Skip it".
      * - 10 = "Is this boostpad vaguely going in the right direction? Take it".
      */
-    private static final double BOOSTPAD_GREEDINESS = 1.1;
+    private static final double DEFAULT_BOOSTPAD_GREEDINESS = 1.1;
 
     public static void init(
             final List<BoostPad> boostPadList,
             final SimpleWeightedGraph<Integer, DefaultWeightedEdge> boostPadGraph) {
+        init(boostPadList, boostPadGraph, DEFAULT_BOOSTPAD_GREEDINESS);
+    }
+
+    public static void init(
+            final List<BoostPad> boostPadList,
+            final SimpleWeightedGraph<Integer, DefaultWeightedEdge> boostPadGraph,
+            final double greedinessFactor) {
         // add new vertices
         for(final BoostPad boostPad : boostPadList) {
             boostPadGraph.addVertex(boostPad.boostId);
@@ -40,7 +47,7 @@ public class BoostPadGraphInitializer {
             final Integer edgeTargetIndex = boostPadGraph.getEdgeTarget(edge);
             final BoostPad edgeSource = BoostPadManager.boostPads.get(edgeSourceIndex);
             final BoostPad edgeTarget = BoostPadManager.boostPads.get(edgeTargetIndex);
-            double greedinessFactorCopy = BOOSTPAD_GREEDINESS;
+            double greedinessFactorCopy = greedinessFactor;
             if(greedinessFactorCopy < 1) {
                 greedinessFactorCopy = 1;
             }
