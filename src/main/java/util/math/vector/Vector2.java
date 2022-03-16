@@ -1,5 +1,6 @@
 package util.math.vector;
 
+import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -167,5 +168,15 @@ public class Vector2 implements Serializable {
 
     public Vector2 flip() {
         return new Vector2(y, x);
+    }
+
+    public Point toAwtPoint() {
+        return new Point((int)x, (int)y);
+    }
+
+    public Vector2 unitClamp() {
+        return new Vector2(
+                Math.min(Math.max(x, -1), 1),
+                Math.min(Math.max(y, -1), 1));
     }
 }

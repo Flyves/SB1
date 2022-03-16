@@ -1,5 +1,6 @@
 package bot;
 
+import bot.debug.DebugRenderer;
 import bot.flyve.SB1;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;
@@ -9,6 +10,7 @@ import util.renderers.RenderTasks;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.input.DataPacketParameters;
 import util.rocket_league.io.output.ControlsOutput;
+import util.rocket_league.keyboard_command_listener.BotHICommandListener;
 import util.state_machine.Behaviour;
 
 import java.util.LinkedList;
@@ -46,7 +48,14 @@ public class Bot implements rlbot.Bot {
         }
         final DataPacketParameters inputParameters = new DataPacketParameters(packet, playerIndex, pastInputs, pastOutputs);
         final DataPacket input = new DataPacket(inputParameters);
-        return runBotLogic(input);
+        final ControlsOutput output = runBotLogic(input);
+
+        DebugRenderer.render(output);
+
+        if(BotHICommandListener.instance.isBotControlling()) {
+            return output;
+        }
+        return BotHICommandListener.instance.asControlsOutput();
     }
 
     @Override

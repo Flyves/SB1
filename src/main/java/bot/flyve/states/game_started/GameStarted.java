@@ -2,15 +2,8 @@ package bot.flyve.states.game_started;
 
 import bot.flyve.states.kickoff.Kickoff;
 import bot.flyve.states.kickoff.KickoffPosition;
-import util.data_structure.tupple.Tuple2;
 import util.data_structure.tupple.Tuple3;
-import util.math.vector.Vector3;
-import util.rocket_league.Constants;
 import util.rocket_league.controllers.ground.dribble.reverse_hit.ReverseBallHitController;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigator;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigatorProfileBuilder;
-import util.rocket_league.controllers.jump.second.SecondJumpType;
-import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
 import util.state_machine.State;

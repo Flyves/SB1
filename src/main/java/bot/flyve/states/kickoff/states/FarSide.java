@@ -11,7 +11,9 @@ public abstract class FarSide extends BaseState {
     @Override
     public void start(final DataPacket input) {
         List<Vector3> waypointList = new ArrayList<>(generateBasicBoostPath(input));
-        waypointList.remove(1);
+        if(!waypointList.isEmpty()) {
+            waypointList.remove(1);
+        }
         waypoints = new LinkedHashSet<>(waypointList);
         super.start(input);
     }

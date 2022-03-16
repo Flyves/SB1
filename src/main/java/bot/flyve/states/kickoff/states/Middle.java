@@ -11,7 +11,9 @@ public class Middle extends BaseState {
     @Override
     public void start(final DataPacket input) {
         List<Vector3> waypointList = new ArrayList<>(generateBasicBoostPath(input));
-        waypointList.remove(2);
+        if(waypointList.size() >= 3) {
+            waypointList.remove(2);
+        }
         waypoints = new LinkedHashSet<>(waypointList);
         super.start(input);
     }

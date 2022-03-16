@@ -417,4 +417,11 @@ public class Vector3 implements Serializable {
     public Vector3 flatten(final Vector3 direction) {
         return this.minus(this.projectOnto(direction));
     }
+
+    public Vector3 unitClamp() {
+        return new Vector3(
+                Math.min(Math.max(x, -1), 1),
+                Math.min(Math.max(y, -1), 1),
+                Math.min(Math.max(z, -1), 1));
+    }
 }

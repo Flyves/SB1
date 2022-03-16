@@ -3,6 +3,7 @@ package bot;
 import rlbot.manager.BotManager;
 import util.PortReader;
 import util.rocket_league.Constants;
+import util.rocket_league.keyboard_command_listener.BotHICommandListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -28,31 +29,33 @@ public class BotRunner {
         PythonInterface pythonInterface = new PythonInterface(port, botManager);
         new Thread(pythonInterface::start).start();
 
-        JFrame frame = new JFrame("Java Bot Runner");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final JFrame jFrame = new JFrame("Java Bot Runner");
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel();
+        jFrame.addKeyListener(BotHICommandListener.instance);
+
+        final JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        BorderLayout borderLayout = new BorderLayout();
+        final BorderLayout borderLayout = new BorderLayout();
         panel.setLayout(borderLayout);
-        JPanel dataPanel = new JPanel();
+        final JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         dataPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
         dataPanel.add(new JLabel("Listening on port " + port), BorderLayout.CENTER);
-        JLabel botsRunning = new JLabel("Loading bots...");
+        final JLabel botsRunning = new JLabel("Loading bots...");
         dataPanel.add(botsRunning, BorderLayout.CENTER);
         panel.add(dataPanel, BorderLayout.CENTER);
-        frame.add(panel);
+        jFrame.add(panel);
 
-        URL url = BotRunner.class.getClassLoader().getResource("icon.png");
-        Image image = Toolkit.getDefaultToolkit().createImage(url);
+        final URL url = BotRunner.class.getClassLoader().getResource("icon.png");
+        final Image image = Toolkit.getDefaultToolkit().createImage(url);
         panel.add(new JLabel(new ImageIcon(image)), BorderLayout.WEST);
-        frame.setIconImage(image);
+        jFrame.setIconImage(image);
 
-        frame.pack();
-        frame.setVisible(true);
+        jFrame.pack();
+        jFrame.setVisible(true);
 
-        ActionListener myListener = e -> {
+        final ActionListener myListener = e -> {
             Set<Integer> runningBotIndices = botManager.getRunningBotIndices();
 
             String botsStr;
@@ -75,7 +78,6 @@ public class BotRunner {
                 botsRunning.setText("Bots running: " + botsStr);
             }
         };
-
         new Timer(1000, myListener).start();
     }
 }
