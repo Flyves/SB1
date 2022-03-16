@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.waypoint;
+package util.rocket_league.controllers.ground.navigation.navigators.seasoner;
 
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector3;
@@ -11,7 +11,8 @@ class JumpCondition {
             final Vector3 activeWaypoint,
             final boolean isJumpControllerFinished) {
         return io.value1.hasWheelContact
-                && activeWaypoint.distance(io.value1.position) > 2200 && isJumpControllerFinished
+                && activeWaypoint.distance(io.value1.position) > 2200
+                && isJumpControllerFinished
                 && io.value1.groundSpeedForward > 800
                 && activeWaypoint.minus(io.value1.position).angle(io.value1.velocity) < 0.02
                 && activeWaypoint.minus(io.value1.position).angle(io.value1.orientation.nose) < 0.02

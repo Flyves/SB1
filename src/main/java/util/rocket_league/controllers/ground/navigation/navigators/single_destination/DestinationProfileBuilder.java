@@ -1,18 +1,25 @@
-package util.rocket_league.controllers.ground.navigation.destination;
+package util.rocket_league.controllers.ground.navigation.navigators.single_destination;
 
 import util.math.vector.Vector3;
+import util.rocket_league.Constants;
 import util.rocket_league.controllers.ground.navigation.DestinationCollisionDetection;
+import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigatorProfileBuilder;
 import util.rocket_league.controllers.ground.steer.angular_velocity.GroundSteering;
+import util.rocket_league.controllers.jump.second.SecondJumpType;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class DestinationProfileBuilder<T> {
     private T destinationObject;
     private Function<T, Vector3> positionObjectMapper;
     private BiFunction<ExtendedCarData, T, Boolean> collisionFunction;
     private Function<Double, Double> angularVelocityFunction;
+    private Supplier<Double> targetSpeedSupplier;
+    private SecondJumpType secondJumpType;
+    private Supplier<Double> minimumBoostAmount;
 
     public DestinationProfileBuilder() {
         this.destinationObject = null;
@@ -20,6 +27,7 @@ public class DestinationProfileBuilder<T> {
         this.collisionFunction = (car, positionObject) -> DestinationCollisionDetection.DEFAULT_COLLISION_DETECTION_FUNCTION
                 .apply(car, positionObjectMapper.apply(positionObject));
         this.angularVelocityFunction = GroundSteering::findMaxAngularVelocity;
+        this.targetSpeedSupplier = () -> Constants.CAR_MAX_SPEED;
     }
 
     public DestinationProfileBuilder<T> withDestination(final T destination) {
@@ -57,7 +65,34 @@ public class DestinationProfileBuilder<T> {
         return this;
     }
 
+    /**
+     *  Use this building method to set the target cruising speed the car is expected to go at.
+     * @param targetSpeedSupplier a supplier to provide the desired speed
+     * @return the builder object
+     */
+    public DestinationProfileBuilder<T> withTargetSpeed(final Supplier<Double> targetSpeedSupplier) {
+        this.targetSpeedSupplier = targetSpeedSupplier;
+        return this;
+    }
+
+    public DestinationProfileBuilder<T> withFlipType(final SecondJumpType secondJumpType) {
+        this.secondJumpType = secondJumpType;
+        return this;
+    }
+
+    public DestinationProfileBuilder<T> withMinimumBoostAmount(final Supplier<Double> minimumBoostAmountSupplier) {
+        this.minimumBoostAmount = minimumBoostAmountSupplier;
+        return this;
+    }
+
     public DestinationProfile<T> build() {
-        return new DestinationProfile<T>(destinationObject, positionObjectMapper, collisionFunction, angularVelocityFunction);
+        return new DestinationProfile<T>(
+                destinationObject,
+                positionObjectMapper,
+                collisionFunction,
+                angularVelocityFunction,
+                targetSpeedSupplier,
+                secondJumpType,
+                minimumBoostAmount);
     }
 }

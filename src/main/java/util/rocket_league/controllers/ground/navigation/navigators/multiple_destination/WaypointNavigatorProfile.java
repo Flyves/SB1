@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.waypoint;
+package util.rocket_league.controllers.ground.navigation.navigators.multiple_destination;
 
 import util.math.vector.Vector3;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
@@ -16,7 +16,7 @@ public class WaypointNavigatorProfile<T> {
     public final Function<T, Vector3> positionObjectMapper;
     public final SecondJumpType secondJumpType;
     public final Supplier<Double> targetSpeedSupplier;
-    public final double minimumBoostAmount;
+    public final Supplier<Double> minimumBoostAmountSupplier;
 
     WaypointNavigatorProfile(
             final Function<Double, Double> angularVelocityFunction,
@@ -25,13 +25,13 @@ public class WaypointNavigatorProfile<T> {
             final Function<T, Vector3> positionObjectMapper,
             final SecondJumpType secondJumpType,
             final Supplier<Double> targetSpeedSupplier,
-            final double minimumBoostAmount) {
+            final Supplier<Double> minimumBoostAmountSupplier) {
         this.collisionFunction = collisionFunction;
         this.angularVelocityFunction = angularVelocityFunction;
         this.waypoints = waypoints;
         this.positionObjectMapper = positionObjectMapper;
         this.secondJumpType = secondJumpType;
         this.targetSpeedSupplier = targetSpeedSupplier;
-        this.minimumBoostAmount = minimumBoostAmount;
+        this.minimumBoostAmountSupplier = minimumBoostAmountSupplier;
     }
 }

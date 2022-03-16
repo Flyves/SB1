@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.destination;
+package util.rocket_league.controllers.ground.navigation.navigators.single_destination;
 
 public class DestinationNavigatorFinisher<T> {
     private final DestinationNavigator<T> destinationNavigator;

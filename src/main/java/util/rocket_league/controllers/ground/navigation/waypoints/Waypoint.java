@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.waypoint;
+package util.rocket_league.controllers.ground.navigation.waypoints;
 
 import util.math.vector.Vector3;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;

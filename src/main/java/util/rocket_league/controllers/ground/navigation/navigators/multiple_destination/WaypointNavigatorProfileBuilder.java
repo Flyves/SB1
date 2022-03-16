@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.waypoint;
+package util.rocket_league.controllers.ground.navigation.navigators.multiple_destination;
 
 import util.data_structure.builder.Builder;
 import util.math.vector.Vector3;
@@ -20,7 +20,7 @@ public class WaypointNavigatorProfileBuilder<T> implements Builder<WaypointNavig
     private Function<T, Vector3> positionObjectMapper;
     private SecondJumpType secondJumpType;
     private Supplier<Double> targetSpeedSupplier;
-    private double minimumBoostAmount;
+    private Supplier<Double> minimumBoostAmount;
 
     public WaypointNavigatorProfileBuilder() {
         this.collisionFunction = (car, positionObject) -> DestinationCollisionDetection.DEFAULT_COLLISION_DETECTION_FUNCTION
@@ -30,7 +30,7 @@ public class WaypointNavigatorProfileBuilder<T> implements Builder<WaypointNavig
         this.positionObjectMapper = t -> (Vector3) t;
         this.secondJumpType = SecondJumpType.NONE;
         this.targetSpeedSupplier = () -> Constants.CAR_MAX_SPEED;
-        this.minimumBoostAmount = 0;
+        this.minimumBoostAmount = () -> 0d;
     }
 
     /**
@@ -73,13 +73,18 @@ public class WaypointNavigatorProfileBuilder<T> implements Builder<WaypointNavig
         return this;
     }
 
+    /**
+     *  Use this building method to set the target cruising speed the car is expected to go at.
+     * @param targetSpeedSupplier a supplier to provide the desired speed
+     * @return the builder object
+     */
     public WaypointNavigatorProfileBuilder<T> withTargetSpeed(final Supplier<Double> targetSpeedSupplier) {
         this.targetSpeedSupplier = targetSpeedSupplier;
         return this;
     }
 
-    public WaypointNavigatorProfileBuilder<T> withMinimumBoostAmount(final double minimumBoostAmount) {
-        this.minimumBoostAmount = minimumBoostAmount;
+    public WaypointNavigatorProfileBuilder<T> withMinimumBoostAmount(final Supplier<Double> minimumBoostAmountSupplier) {
+        this.minimumBoostAmount = minimumBoostAmountSupplier;
         return this;
     }
 

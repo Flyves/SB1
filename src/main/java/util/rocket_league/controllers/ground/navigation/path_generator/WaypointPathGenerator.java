@@ -4,9 +4,9 @@ import util.data_structure.bvh.shape.Sphere;
 import util.data_structure.bvh.shape.Triangle3;
 import util.math.vector.Ray3;
 import util.math.vector.Vector3;
-import util.rocket_league.controllers.ground.navigation.waypoint.PlayfieldSurfaceWaypoint;
-import util.rocket_league.controllers.ground.navigation.waypoint.WallTransitionWaypoint;
-import util.rocket_league.controllers.ground.navigation.waypoint.Waypoint;
+import util.rocket_league.controllers.ground.navigation.waypoints.DefaultPlayfieldWaypoint;
+import util.rocket_league.controllers.ground.navigation.waypoints.PlayfieldSurfaceWaypoint;
+import util.rocket_league.controllers.ground.navigation.waypoints.Waypoint;
 import util.rocket_league.io.input.DataPacket;
 import util.shape.Triangle3D;
 
@@ -30,7 +30,7 @@ public class WaypointPathGenerator {
 
         // add in-between waypoints
         if(needsAdditionalWaypoint(sourceWaypoint, targetWaypoint)) {
-            final Waypoint intermediateWaypoint = computeIntermediateWaypoint(sourceWaypoint, targetWaypoint);
+            final Waypoint intermediateWaypoint = computeIntermediateWaypointToCrossMapBorder(sourceWaypoint, targetWaypoint);
             waypoints.add(intermediateWaypoint);
         }
 
@@ -39,7 +39,7 @@ public class WaypointPathGenerator {
         return waypoints;
     }
 
-    private static Waypoint computeIntermediateWaypoint(Ray3 sourceWaypoint, Ray3 targetWaypoint) {
+    private static Waypoint computeIntermediateWaypointToCrossMapBorder(Ray3 sourceWaypoint, Ray3 targetWaypoint) {
         final Vector3 targetToSource = sourceWaypoint.offset.minus(targetWaypoint.offset);
         final Vector3 aVec = targetToSource.flatten(targetWaypoint.direction);
         final Vector3 bVec = targetToSource.projectOnto(sourceWaypoint.direction);
@@ -59,7 +59,7 @@ public class WaypointPathGenerator {
         final Vector3 offsetDirection = sourceWaypoint.direction.plus(targetWaypoint.direction).normalized();
         final double querySphereRadii = 100;
         final Vector3 notExactlyOnMapIntermediatePoint = outsideOfMapIntermediateWaypoint.plus(offsetDirection.scaled(querySphereRadii));
-        return new WallTransitionWaypoint(notExactlyOnMapIntermediatePoint);
+        return new DefaultPlayfieldWaypoint(notExactlyOnMapIntermediatePoint);
     }
 
     private static double squared(final double x) {

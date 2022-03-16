@@ -5,9 +5,8 @@ import bot.flyve.states.kickoff.KickoffPosition;
 import util.data_structure.tupple.Tuple2;
 import util.math.vector.Vector3;
 import util.rocket_league.Constants;
-import util.rocket_league.controllers.ground.navigation.path_generator.WaypointPathGenerator;
-import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigator;
-import util.rocket_league.controllers.ground.navigation.waypoint.WaypointNavigatorProfileBuilder;
+import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigator;
+import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigatorProfileBuilder;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
 import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.io.input.DataPacket;
@@ -36,19 +35,7 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        /*
-        final List<BallData> bouncyBalls = input.ballPrediction.stream()
-                .filter(ballData -> {
-                    final int index = input.ballPrediction.indexOf(ballData);
-                    if(index >= input.ballPrediction.size()-1) {
-                        return false;
-                    }
-                    final int nextIndex = index + 1;
-                    final BallData nextBallData = input.ballPrediction.get(nextIndex);
-                    return nextBallData.velocity.minus(ballData.velocity).scaled(Constants.BALL_PREDICTION_REFRESH_RATE)
-                            .minus(Constants.GRAVITY_VECTOR)
-                            .magnitudeSquared() > 100 * 100;
-                })
+        final List<BallData> bouncyBalls = input.ballPrediction.filterBallBounces()
                 .collect(Collectors.toList());
 
         if(!bouncyBalls.isEmpty()) {
@@ -70,7 +57,10 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
         }
         if(waypointNavigator != null && !bouncyBalls.isEmpty()) {
             return waypointNavigator.exec(new Tuple2<>(input.car, new ControlsOutput()));
-        }*/
+        }
+        double ballEnergy = Constants.BALL_MASS*
+                (0.5*input.ball.velocity.z*input.ball.velocity.z + input.gravityVector.magnitude()*(input.ball.position.z-Constants.BALL_RADIUS));
+        System.out.println(ballEnergy/1_000_000);
         return new ControlsOutput();
     }
 

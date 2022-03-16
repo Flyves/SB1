@@ -1,4 +1,4 @@
-package util.rocket_league.controllers.ground.navigation.waypoint;
+package util.rocket_league.controllers.ground.navigation.navigators.seasoner;
 
 import util.math.vector.Vector2;
 import util.math.vector.Vector3;
