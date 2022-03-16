@@ -14,7 +14,7 @@ public class PlayTheGame extends State<DataPacket, ControlsOutput> {
 
     @Override
     public void start(final DataPacket input) {
-        if(KickoffPosition.hasToGoToKickoff(input)) {
+        if(KickoffPosition.hasToGoToKickoff(input) && !KickoffPosition.kickoffFinished(input)) {
             stateMachine = new StateMachine<>(new Kickoff());
         }
         else {

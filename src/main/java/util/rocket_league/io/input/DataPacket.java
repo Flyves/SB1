@@ -10,7 +10,6 @@ import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
 import util.rocket_league.io.output.OutputFinder;
-import util.rocket_league.playfield.PlayfieldNeighborGraph;
 import util.rocket_league.playfield.Standard;
 import util.rocket_league.team.TeamType;
 

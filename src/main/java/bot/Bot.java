@@ -3,6 +3,7 @@ package bot;
 import bot.flyve.SB1;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;
+import util.math.statistics.StatisticalData;
 import util.renderers.IndexedRenderer;
 import util.renderers.RenderTasks;
 import util.rocket_league.io.input.DataPacket;
@@ -21,9 +22,12 @@ public class Bot implements rlbot.Bot {
     public final List<DataPacket> pastInputs;
     public final List<List<ControlsOutput>> pastOutputs;
 
+    private final StatisticalData<Double> statisticalData;
+
     public Bot(SB1 rocketLeagueBot, int playerIndex) {
         this.botBehaviour = rocketLeagueBot;
         this.playerIndex = playerIndex;
+        this.statisticalData = new StatisticalData<>(500);
 
         this.pastInputs = new LinkedList<>();
         this.pastOutputs = new LinkedList<>();
