@@ -4,7 +4,7 @@ import util.math.vector.Vector2;
 import util.math.vector.Vector3;
 import util.renderers.RenderTasks;
 import util.rocket_league.io.output.ControlsOutput;
-import util.rocket_league.keyboard_command_listener.BotHICommandListener;
+import util.rocket_league.keyboard_command_listener.HICommandListener;
 
 import java.awt.*;
 
@@ -18,20 +18,20 @@ public class DebugRenderer {
     }
 
     private static void renderBotControls(final ControlsOutput outputGeneratedByBot) {
-        if(BotHICommandListener.instance.debugScreenInfoId() == 1) {
+        if(HICommandListener.instance.debugScreenInfoId() == 1) {
             JoystickPositionRenderer.render(new Vector2(1790, 50), new Vector2(outputGeneratedByBot.steer, -outputGeneratedByBot.throttle));
             JoystickPositionRenderer.render(new Vector2(1660, 50), new Vector3(outputGeneratedByBot.yaw, -outputGeneratedByBot.pitch, outputGeneratedByBot.roll));
-            RenderTasks.append(r -> r.drawString2d("Drifting :", Color.WHITE, new Point(1660, 160), 1, 1));
-            BooleanRenderer.render(new Vector2(1780, 160), outputGeneratedByBot.isDrifting);
-            RenderTasks.append(r -> r.drawString2d("Jumping :", Color.WHITE, new Point(1660, 180), 1, 1));
-            BooleanRenderer.render(new Vector2(1780, 180), outputGeneratedByBot.isJumping);
-            RenderTasks.append(r -> r.drawString2d("Boosting :", Color.WHITE, new Point(1660, 200), 1, 1));
-            BooleanRenderer.render(new Vector2(1780, 200), outputGeneratedByBot.isBoosting);
+            RenderTasks.append(r -> r.drawString2d("Drift :", Color.WHITE, new Point(1660, 160), 1, 1));
+            BooleanRenderer.render(new Vector2(1750, 160), outputGeneratedByBot.isDrifting);
+            RenderTasks.append(r -> r.drawString2d("Jump :", Color.WHITE, new Point(1660, 180), 1, 1));
+            BooleanRenderer.render(new Vector2(1750, 180), outputGeneratedByBot.isJumping);
+            RenderTasks.append(r -> r.drawString2d("Boost :", Color.WHITE, new Point(1660, 200), 1, 1));
+            BooleanRenderer.render(new Vector2(1750, 200), outputGeneratedByBot.isBoosting);
         }
     }
 
     private static void renderBotOrHuamanControllingIndicator() {
-        if(BotHICommandListener.instance.isBotControlling()) {
+        if(HICommandListener.instance.isBotControlling()) {
             if(!wasBotControlling) {
                 wasBotControlling = true;
                 endTime = System.currentTimeMillis() + 300;

@@ -4,9 +4,11 @@ import util.rocket_league.io.output.ControlsOutput;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class BotHICommandListener implements KeyListener {
-    public static final BotHICommandListener instance = new BotHICommandListener();
+public class HICommandListener implements KeyListener, MouseListener {
+    public static final HICommandListener instance = new HICommandListener();
     private static final int MAX_DEBUG_INFO_PRESS_COUNT = 2;
 
     private boolean wPressed;
@@ -16,15 +18,19 @@ public class BotHICommandListener implements KeyListener {
     private boolean lShiftPressed;
     private boolean pToggled;
     private int oPressCount;
+    private boolean leftClickPressed;
+    private boolean rightClickPressed;
 
-    BotHICommandListener() {
+    HICommandListener() {
         this.wPressed = false;
         this.aPressed = false;
         this.sPressed = false;
         this.dPressed = false;
         this.lShiftPressed = false;
         this.pToggled = true;
-        this.oPressCount = 0;
+        this.oPressCount = 1;
+        this.leftClickPressed = false;
+        this.rightClickPressed = false;
     }
 
     @Override
@@ -108,21 +114,76 @@ public class BotHICommandListener implements KeyListener {
 
     public ControlsOutput asControlsOutput() {
         final ControlsOutput output = new ControlsOutput();
-        if(BotHICommandListener.instance.w()) {
-            output.throttle += 1;
-        }
-        if(BotHICommandListener.instance.s()) {
-            output.throttle -= 1;
-        }
-        if(BotHICommandListener.instance.d()) {
-            output.steer += 1;
-        }
-        if(BotHICommandListener.instance.a()) {
-            output.steer -= 1;
-        }
-        if(BotHICommandListener.instance.lShift()) {
+        if(HICommandListener.instance.lShift()) {
             output.isDrifting = true;
         }
+        if(HICommandListener.instance.w()) {
+            output.throttle += 1;
+            output.pitch -= 1;
+        }
+        if(HICommandListener.instance.s()) {
+            output.throttle -= 1;
+            output.pitch += 1;
+        }
+        if(HICommandListener.instance.d()) {
+            output.steer += 1;
+            if(output.isDrifting) {
+                output.roll += 1;
+            }
+            else {
+                output.yaw += 1;
+            }
+        }
+        if(HICommandListener.instance.a()) {
+            output.steer -= 1;
+            if(output.isDrifting) {
+                output.roll -= 1;
+            }
+            else {
+                output.yaw -= 1;
+            }
+        }
+        if(leftClickPressed) {
+            output.isBoosting = true;
+        }
+        if(rightClickPressed) {
+            output.isJumping = true;
+        }
         return output;
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            leftClickPressed = true;
+        }
+        if(e.getButton() == MouseEvent.BUTTON3) {
+            rightClickPressed = true;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            leftClickPressed = false;
+        }
+        if(e.getButton() == MouseEvent.BUTTON3) {
+            rightClickPressed = false;
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

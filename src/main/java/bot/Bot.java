@@ -10,7 +10,7 @@ import util.renderers.RenderTasks;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.input.DataPacketParameters;
 import util.rocket_league.io.output.ControlsOutput;
-import util.rocket_league.keyboard_command_listener.BotHICommandListener;
+import util.rocket_league.keyboard_command_listener.HICommandListener;
 import util.state_machine.Behaviour;
 
 import java.util.LinkedList;
@@ -52,10 +52,10 @@ public class Bot implements rlbot.Bot {
 
         DebugRenderer.render(output);
 
-        if(BotHICommandListener.instance.isBotControlling()) {
+        if(HICommandListener.instance.isBotControlling()) {
             return output;
         }
-        return BotHICommandListener.instance.asControlsOutput();
+        return HICommandListener.instance.asControlsOutput();
     }
 
     @Override
@@ -70,8 +70,7 @@ public class Bot implements rlbot.Bot {
 
     private boolean dataLooksFishy(GameTickPacket packet) {
         return packet.playersLength() <= playerIndex
-                || packet.ball() == null
-                || !packet.gameInfo().isRoundActive();
+                || packet.ball() == null;
     }
 
     private ControlsOutput runBotLogic(DataPacket input) {

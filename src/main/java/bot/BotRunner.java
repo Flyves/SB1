@@ -3,7 +3,7 @@ package bot;
 import rlbot.manager.BotManager;
 import util.PortReader;
 import util.rocket_league.Constants;
-import util.rocket_league.keyboard_command_listener.BotHICommandListener;
+import util.rocket_league.keyboard_command_listener.HICommandListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +32,8 @@ public class BotRunner {
         final JFrame jFrame = new JFrame("Java Bot Runner");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        jFrame.addKeyListener(BotHICommandListener.instance);
+        jFrame.addKeyListener(HICommandListener.instance);
+        jFrame.addMouseListener(HICommandListener.instance);
 
         final JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));

@@ -34,6 +34,7 @@ public class DataPacket {
     public final List<DataPacket> pastInputs;
     public final List<List<ControlsOutput>> pastOutputs;
     public final BallPrediction ballPrediction;
+    public final boolean isRoundActive;
 
     public static final int PAST_INPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
     public static final int PAST_OUTPUTS_MAX_SIZE = (int)(Constants.BOT_REFRESH_RATE * 5);
@@ -73,6 +74,8 @@ public class DataPacket {
 
         // ball prediction
         this.ballPrediction = new BallPrediction();
+
+        this.isRoundActive = dataPacketParameters.request.gameInfo().isRoundActive();
 
         // compute new past input
         pastInputs.add(this);
