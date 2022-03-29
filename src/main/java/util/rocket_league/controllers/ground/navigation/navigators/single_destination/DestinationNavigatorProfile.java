@@ -1,6 +1,5 @@
 package util.rocket_league.controllers.ground.navigation.navigators.single_destination;
 
-import com.sun.javafx.UnmodifiableArrayList;
 import util.math.vector.Vector3;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
@@ -9,7 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class DestinationProfile<T> {
+public class DestinationNavigatorProfile<T> {
     public final T destination;
     public final Function<T, Vector3> positionObjectMapper;
     public final BiFunction<ExtendedCarData, T, Boolean>  collisionFunction;
@@ -18,7 +17,7 @@ public class DestinationProfile<T> {
     public final SecondJumpType secondJumpType;
     public final Supplier<Double> minimumBoostAmountSupplier;
 
-    DestinationProfile(
+    DestinationNavigatorProfile(
             final T destination,
             final Function<T, Vector3> positionObjectMapper,
             final BiFunction<ExtendedCarData, T, Boolean> collisionFunction,

@@ -3,29 +3,29 @@ package bot.flyve.states.game_started;
 import bot.flyve.states.kickoff.KickoffPosition;
 import bot.flyve.states.round_over.RoundOver;
 import util.data_structure.tupple.Tuple2;
-import util.math.vector.Vector3;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigator;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigatorProfileBuilder;
+import util.data_structure.tupple.Tuple3;
+import util.rocket_league.controllers.ground.dribble.strong.StrongDribble;
+import util.rocket_league.controllers.ground.dribble.strong.StrongDribbleProfileBuilder;
 import util.rocket_league.io.input.DataPacket;
 import util.rocket_league.io.output.ControlsOutput;
+import util.rocket_league.keyboard_command_listener.HICommandListener;
 import util.state_machine.State;
 
-import java.util.LinkedHashSet;
+import javax.xml.ws.Holder;
+
 
 public class GameStarted extends State<DataPacket, ControlsOutput> {
-    public final WaypointNavigator<Vector3> waypointNavigator;
+    public final StrongDribble strongDribble;
+    public final Holder<Double> offsetLeftRight;
+    public final Holder<Double> offsetFrontBack;
 
     public GameStarted() {
-        final LinkedHashSet<Vector3> linkedHashSet = new LinkedHashSet<>();
-        for(int i = 0; i < 100; i++) {
-            linkedHashSet.add(new Vector3((Math.random()-0.5)*4000, (Math.random()-0.5)*8000, 0));
-        }
-
-        this.waypointNavigator = new WaypointNavigator<>(new WaypointNavigatorProfileBuilder<Vector3>()
-                .withTargetSpeed(() -> 1200.0)
-                .withAngularVelocity(v -> 3.05)
-                .withMinimumBoostAmount(() -> 100.0)
-                .withWaypoints(linkedHashSet)
+        this.offsetLeftRight = new Holder<>();
+        this.offsetFrontBack = new Holder<>();
+        this.strongDribble = new StrongDribble(new StrongDribbleProfileBuilder()
+                .withSteeringOffset(() -> offsetLeftRight.value)
+                .withThrottlingOffset(() -> offsetFrontBack.value)
+                .withMinimumBoostAmount(() -> 100d)
                 .build());
     }
 
@@ -36,7 +36,9 @@ public class GameStarted extends State<DataPacket, ControlsOutput> {
 
     @Override
     public ControlsOutput exec(DataPacket input) {
-        return waypointNavigator.exec(new Tuple2<>(input.car, new ControlsOutput()));
+        offsetLeftRight.value = (double) HICommandListener.instance.asControlsOutput().steer*-70;
+        offsetFrontBack.value = (double) HICommandListener.instance.asControlsOutput().throttle*50;
+        return strongDribble.exec(new Tuple3<>(input.car, input.ball, new ControlsOutput()));
     }
 
     @Override

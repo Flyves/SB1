@@ -5,7 +5,7 @@ import util.math.vector.Vector3;
 import util.renderers.RenderTasks;
 import util.rocket_league.controllers.ground.navigation.navigators.Navigator;
 import util.rocket_league.controllers.ground.navigation.navigators.single_destination.DestinationNavigator;
-import util.rocket_league.controllers.ground.navigation.navigators.single_destination.DestinationProfileBuilder;
+import util.rocket_league.controllers.ground.navigation.navigators.single_destination.DestinationNavigatorProfileBuilder;
 import util.rocket_league.controllers.jump.second.SecondJumpType;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
@@ -37,7 +37,7 @@ public class WaypointNavigator<T> implements Navigator {
     private void setNextWaypoint() {
         //noinspection OptionalGetWithoutIsPresent
         activeWaypointObject = waypoints.stream().findFirst().get();
-        this.destinationNavigator = new DestinationNavigator<>(new DestinationProfileBuilder<T>()
+        this.destinationNavigator = new DestinationNavigator<>(new DestinationNavigatorProfileBuilder<T>()
                 .withDestinationMapper(waypointNavigatorProfile.positionObjectMapper)
                 .withCollision(waypointNavigatorProfile.collisionFunction)
                 .withAngularVelocity(waypointNavigatorProfile.angularVelocityFunction)
@@ -83,8 +83,6 @@ public class WaypointNavigator<T> implements Navigator {
 
     private void render() {
         activeWaypointPosition().ifPresent(activeWaypoint -> {
-            RenderTasks.append(r -> r.drawLine3d(
-                    Color.red, activeWaypoint.toFlatVector(), activeWaypoint.plus(new Vector3(0, 0, 300)).toFlatVector()));
             waypoints.forEach(waypoint -> RenderTasks.append(r ->
                     r.drawLine3d(
                             Color.cyan,
