@@ -1,7 +1,5 @@
 package util.rocket_league.controllers.ground.dribble.strong;
 
-import util.rocket_league.controllers.ground.steer.angular_velocity.TurnRadius;
-
 import java.util.function.Supplier;
 
 public class StrongDribbleProfile {

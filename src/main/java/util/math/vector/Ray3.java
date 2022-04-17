@@ -23,4 +23,12 @@ public class Ray3 implements Renderable {
     public void render(final Color color) {
         RenderTasks.append(renderer -> renderer.drawLine3d(color, offset.toFlatVector(), offset.plus(direction).toFlatVector()));
     }
+
+    public Ray3 minus(final Ray3 that) {
+        return new Ray3(offset.minus(that.offset), direction.minus(that.direction));
+    }
+
+    public Ray3 scaled(final double factor) {
+        return new Ray3(offset.scaled(factor), direction.scaled(factor));
+    }
 }

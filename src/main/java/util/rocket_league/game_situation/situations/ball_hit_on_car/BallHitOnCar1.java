@@ -19,9 +19,9 @@ public class BallHitOnCar1 extends GameSituation {
         GameState gameState = getCurrentGameState();
 
         Vector3 carPosition = new Vector3(0, 0, 1000);
-        Vector3 ballPosition = Vector3.UP_VECTOR.scaled(1000)
+        Vector3 ballPosition = Vector3.Z_VECTOR.scaled(1000)
                 .rotate(Vector3.X_VECTOR.scaled(Math.random()*Math.PI))
-                .rotate(Vector3.UP_VECTOR.scaled((Math.random()-0.5)*Math.PI))
+                .rotate(Vector3.Z_VECTOR.scaled((Math.random()-0.5)*Math.PI))
                 .plus(carPosition);
         Vector3 ballVelocity = carPosition.minus(ballPosition).scaledToMagnitude(100 + Math.random()*5000);
 

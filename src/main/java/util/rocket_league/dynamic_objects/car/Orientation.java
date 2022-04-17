@@ -22,7 +22,7 @@ public class Orientation {
 
     public Orientation() {
         this.nose = Vector3.X_VECTOR;
-        this.roof = Vector3.UP_VECTOR;
+        this.roof = Vector3.Z_VECTOR;
         this.right = nose.crossProduct(roof);
     }
 
@@ -64,7 +64,7 @@ public class Orientation {
         final Vector3 noseRotationDisk = findRotationDisk(this.nose, that.nose);
         final Vector3 roofRotationDisk = findRotationDisk(this.roof, that.roof);
         final Vector3 directionOfDisplacementVector = noseRotationDisk.crossProduct(roofRotationDisk);
-        final Vector3 flatteningRotator = directionOfDisplacementVector.findRotator(Vector3.UP_VECTOR);
+        final Vector3 flatteningRotator = directionOfDisplacementVector.findRotator(Vector3.Z_VECTOR);
 
         final double displacementVectorMagnitude;
         if(!noseRotationDisk.isZero()) {

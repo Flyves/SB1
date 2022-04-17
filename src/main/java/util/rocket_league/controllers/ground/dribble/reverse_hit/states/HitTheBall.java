@@ -2,10 +2,10 @@ package util.rocket_league.controllers.ground.dribble.reverse_hit.states;
 
 import util.data_structure.tupple.Tuple2;
 import util.data_structure.tupple.Tuple3;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigator;
-import util.rocket_league.controllers.ground.navigation.navigators.multiple_destination.WaypointNavigatorProfileBuilder;
-import util.rocket_league.controllers.ground.navigation.waypoints.DefaultPlayfieldWaypoint;
-import util.rocket_league.controllers.ground.navigation.waypoints.Waypoint;
+import util.rocket_league.controllers.ground.navigation.waypoint.multiple_destination.WaypointNavigator;
+import util.rocket_league.controllers.ground.navigation.waypoint.multiple_destination.WaypointNavigatorProfileBuilder;
+import util.rocket_league.controllers.ground.navigation.waypoint.waypoints.DefaultPlayfieldWaypoint;
+import util.rocket_league.controllers.ground.navigation.waypoint.waypoints.Waypoint;
 import util.rocket_league.dynamic_objects.ball.BallData;
 import util.rocket_league.dynamic_objects.car.ExtendedCarData;
 import util.rocket_league.io.output.ControlsOutput;
