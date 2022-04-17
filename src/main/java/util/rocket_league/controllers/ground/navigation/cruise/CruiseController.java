@@ -17,7 +17,7 @@ public class CruiseController implements Behaviour<Tuple2<ExtendedCarData, Contr
 
     private final CruiseProfile cruiseProfile;
     private Ray3 previousDestination;
-    private Ray3 destinationVelocity;
+    private Vector3 destinationVelocity;
     private final Holder<Double> desiredSpeed;
     private final Holder<Vector3> anchorPosition;
     private final DestinationNavigator<Holder<Vector3>> destinationNavigator;
@@ -25,7 +25,7 @@ public class CruiseController implements Behaviour<Tuple2<ExtendedCarData, Contr
     public CruiseController(final CruiseProfile cruiseProfile) {
         this.cruiseProfile = cruiseProfile;
         this.previousDestination = new Ray3();
-        this.destinationVelocity = new Ray3();
+        this.destinationVelocity = new Vector3();
         this.desiredSpeed = new Holder<>(0d);
         this.anchorPosition = new Holder<>();
         this.destinationNavigator = new DestinationNavigator<>(new DestinationNavigatorProfileBuilder<Holder<Vector3>>()
@@ -48,14 +48,20 @@ public class CruiseController implements Behaviour<Tuple2<ExtendedCarData, Contr
 
     private void updateDesiredSpeed(final Tuple2<ExtendedCarData, ControlsOutput> io, final Ray3 destination) {
         final double desiredDisplacement = destination.offset.minus(io.value1.position).dotProduct(io.value1.orientation.nose);
-        final double destinationSpeed = destinationVelocity.offset.magnitude();
-        final double lookahead = destinationVelocity.offset.minus(io.value1.velocity).dotProduct(io.value1.orientation.nose);
+        final double destinationSpeed = destinationVelocity.magnitude();
+        final double lookahead = destinationVelocity.minus(io.value1.velocity).dotProduct(io.value1.orientation.nose);
         desiredSpeed.value = desiredDisplacement * SPEED_CONVERGENCE_RATE + destinationSpeed + lookahead;
         System.out.println(desiredDisplacement);
     }
 
     private void updateDestinationInfo(final Ray3 newDestination) {
-        destinationVelocity = newDestination.minus(previousDestination).scaled(Constants.BOT_REFRESH_RATE);
+        final Vector3 userDestinationVelocity = cruiseProfile.destinationVelocity.get();
+        if(userDestinationVelocity == null) {
+            destinationVelocity = newDestination.offset.minus(previousDestination.offset).scaled(Constants.BOT_REFRESH_RATE);
+        }
+        else {
+            destinationVelocity = userDestinationVelocity;
+        }
         previousDestination = newDestination;
         anchorPosition.value = newDestination.offset.plus(newDestination.direction);
     }

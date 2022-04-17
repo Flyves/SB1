@@ -1,27 +1,21 @@
 package util.rocket_league.controllers.ground.dribble.strong;
 
 import util.data_structure.builder.Builder;
+import util.math.vector.Vector3;
 
 import java.util.function.Supplier;
 
 public class StrongDribbleProfileBuilder implements Builder<StrongDribbleProfile> {
-    private Supplier<Double> steeringOffsetFunction;
-    private Supplier<Double> throttlingOffsetFunction;
+    private Supplier<Vector3> offsetFunction;
     private Supplier<Double> minimumBoostAmount;
 
     public StrongDribbleProfileBuilder() {
-        steeringOffsetFunction = () -> 0d;
-        throttlingOffsetFunction = () -> 0d;
+        offsetFunction = Vector3::new;
         minimumBoostAmount = () -> 0d;
     }
 
-    public StrongDribbleProfileBuilder withSteeringOffset(final Supplier<Double> steeringOffsetFunction) {
-        this.steeringOffsetFunction = steeringOffsetFunction;
-        return this;
-    }
-
-    public StrongDribbleProfileBuilder withThrottlingOffset(final Supplier<Double> throttlingOffsetFunction) {
-        this.throttlingOffsetFunction = throttlingOffsetFunction;
+    public StrongDribbleProfileBuilder withOffset(final Supplier<Vector3> offsetFunction) {
+        this.offsetFunction = offsetFunction;
         return this;
     }
 
@@ -32,6 +26,6 @@ public class StrongDribbleProfileBuilder implements Builder<StrongDribbleProfile
 
     @Override
     public StrongDribbleProfile build() {
-        return new StrongDribbleProfile(steeringOffsetFunction, throttlingOffsetFunction, minimumBoostAmount);
+        return new StrongDribbleProfile(offsetFunction, minimumBoostAmount);
     }
 }
