@@ -1,5 +1,5 @@
-# RLBotJavaExample
-An example bot implemented in Java
+# SB1
+Sandbox Java bot to try a new architecture and see how it scales. 
 
 ## Video Guide
 
